@@ -135,7 +135,7 @@ Todos los productos verificados con sus 5 niveles de precios:
 - ✅ Cotización completa con logo y datos
 - ✅ Tabla de productos con precios
 - ✅ Subtotal + Envío + Total
-- ✅ Nota para Cruz Valencia
+- ✅ Nota para Rita Valencia
 
 ### ✅ Colores y Branding
 
@@ -180,7 +180,7 @@ Todos los productos verificados con sus 5 niveles de precios:
 - ✅ Descarga automática
 
 ### ✅ WhatsApp
-- ✅ Número correcto: +526621200412
+- ✅ Número correcto: +526312982043
 - ✅ Mensaje pre-escrito con datos
 - ✅ Descarga imagen antes de abrir WhatsApp
 - ✅ Abre en nueva pestaña
@@ -326,9 +326,9 @@ La aplicación **MV Natural - Sistema de Cotizaciones** ha sido verificada exhau
 
 ### Contacto
 
-**Cruz Valencia**  
-WhatsApp: +526621200412  
-Empresa: MV Natural (By Cruz)
+**Rita Valencia**  
+WhatsApp: +526312982043  
+Empresa: MV Natural (By Rita)
 
 ---
 
