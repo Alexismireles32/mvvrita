@@ -959,50 +959,132 @@
             margin-bottom: 8px;
         }
 
-        /* Catalog Section */
-        .catalog-section {
-            background: var(--light-cream);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px 20px;
+        /* Catalog Carousel Section */
+        .catalog-carousel-container {
+            width: 100%;
             margin: 25px 0;
-            text-align: center;
-        }
-
-        .catalog-section h3 {
-            color: var(--gold);
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-        }
-
-        .catalog-section p {
-            color: var(--text-brown);
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-        }
-
-        .btn-catalog {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--light-gold) 100%);
-            color: white;
-            padding: 15px 25px;
-            border: none;
+            overflow: hidden;
             border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: #000;
+            position: relative;
+        }
+
+        .catalog-carousel-wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+            cursor: grab;
+        }
+
+        .catalog-carousel-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .catalog-carousel-wrapper::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .catalog-carousel-item {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            background: #000;
+        }
+
+        .catalog-carousel-item img {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .catalog-carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(184, 134, 11, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
-            min-height: 48px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.3s;
             touch-action: manipulation;
         }
 
-        .btn-catalog:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 6px rgba(184, 134, 11, 0.3);
+        .catalog-carousel-nav:hover {
+            background: rgba(184, 134, 11, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .catalog-carousel-nav:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .catalog-carousel-nav.prev {
+            left: 15px;
+        }
+
+        .catalog-carousel-nav.next {
+            right: 15px;
+        }
+
+        .catalog-carousel-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .catalog-carousel-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .catalog-carousel-item {
+                min-height: 70vh;
+            }
+
+            .catalog-carousel-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .catalog-carousel-nav.prev {
+                left: 10px;
+            }
+
+            .catalog-carousel-nav.next {
+                right: 10px;
+            }
         }
 
         /* Footer */
@@ -1335,12 +1417,52 @@
                 <p>Para zonas extendidas o de difícil acceso, se cobrará un costo adicional de envío. Por favor consulte con Rita Valencia para más detalles.</p>
             </div>
 
-            <div class="catalog-section">
-                <h3>📚 Catálogo de Productos</h3>
-                <p>Descargue nuestro catálogo completo de productos para conocer toda nuestra oferta.</p>
-                <a href="public/catalogo-mvvNaturalss-24_240923_175642.pdf" class="btn-catalog" download>
-                    📄 Descargar Catálogo PDF
-                </a>
+            <div class="catalog-carousel-container">
+                <button class="catalog-carousel-nav prev" onclick="scrollCatalogCarousel(-1)" aria-label="Imagen anterior">‹</button>
+                <div class="catalog-carousel-wrapper" id="catalogCarousel">
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549460/catalogo-mvv-natural-1_qihzmj.webp" alt="Catálogo página 1" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549478/catalogo-mvv-natural-2_c6pjzx.webp" alt="Catálogo página 2" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvv-natural-3_fpfmfj.webp" alt="Catálogo página 3" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvv-natural-4_hmppua.webp" alt="Catálogo página 4" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549505/catalogo-mvv-natural-5_bzvrlg.webp" alt="Catálogo página 5" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549504/catalogo-mvv-natural-6_hdrlbr.webp" alt="Catálogo página 6" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549482/catalogo-mvv-natural-7_wzfkvr.webp" alt="Catálogo página 7" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549507/catalogo-mvv-natural-8_kctrrh.webp" alt="Catálogo página 8" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549507/catalogo-mvv-natural-9_da08s1.webp" alt="Catálogo página 9" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549517/catalogo-mvv-natural-10_vs3aqv.webp" alt="Catálogo página 10" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549520/catalogo-mvv-natural-11_we83am.webp" alt="Catálogo página 11" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549528/catalogo-mvv-natural-12_pd7yxq.webp" alt="Catálogo página 12" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549515/catalogo-mvv-natural-13_lcfatz.webp" alt="Catálogo página 13" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-14_obho2e.webp" alt="Catálogo página 14" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549522/catalogo-mvv-natural-15_qpsuiu.webp" alt="Catálogo página 15" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-16_yiewjp.webp" alt="Catálogo página 16" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-17_lvwwel.webp" alt="Catálogo página 17" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549538/catalogo-mvv-natural-18_l4r57w.webp" alt="Catálogo página 18" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549552/catalogo-mvv-natural-19_nbmjhq.webp" alt="Catálogo página 19" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549548/catalogo-mvv-natural-20_aihpsv.webp" alt="Catálogo página 20" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvv-natural-21_rcrlmk.webp" alt="Catálogo página 21" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvv-natural-22_bvgzpm.webp" alt="Catálogo página 22" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvv-natural-23_jdfcan.webp" alt="Catálogo página 23" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549560/catalogo-mvv-natural-24_svcf1o.webp" alt="Catálogo página 24" loading="lazy"></div>
+                    <div class="catalog-carousel-item" style="background: #fff; display: flex; align-items: center; justify-content: center; color: #999;"><div style="text-align: center; padding: 40px;"><p style="font-size: 1.2rem; margin-bottom: 10px;">Página 25</p><p>No disponible</p></div></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549558/catalogo-mvv-natural-26_aqrhoz.webp" alt="Catálogo página 26" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549572/catalogo-mvv-natural-27_ohefys.webp" alt="Catálogo página 27" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvv-natural-28_br04nr.webp" alt="Catálogo página 28" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvv-natural-29_fqn4vq.webp" alt="Catálogo página 29" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549581/catalogo-mvv-natural-30_xiyils.webp" alt="Catálogo página 30" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549586/catalogo-mvv-natural-31_jg76gh.webp" alt="Catálogo página 31" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549573/catalogo-mvv-natural-32_r5ipwu.webp" alt="Catálogo página 32" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549586/catalogo-mvv-natural-33_tpgqj5.webp" alt="Catálogo página 33" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvv-natural-34_ingp1d.webp" alt="Catálogo página 34" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549584/catalogo-mvv-natural-35_ao2pay.webp" alt="Catálogo página 35" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549664/catalogo-mvv-natural-36_omardo.webp" alt="Catálogo página 36" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549659/catalogo-mvv-natural-37_jbem0i.webp" alt="Catálogo página 37" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549664/catalogo-mvv-natural-38_ekzkq5.webp" alt="Catálogo página 38" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549663/catalogo-mvv-natural-39_s96fds.webp" alt="Catálogo página 39" loading="lazy"></div>
+                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549663/catalogo-mvv-natural-40_w0njj9.webp" alt="Catálogo página 40" loading="lazy"></div>
+                </div>
+                <button class="catalog-carousel-nav next" onclick="scrollCatalogCarousel(1)" aria-label="Imagen siguiente">›</button>
+                <div class="catalog-carousel-counter" id="catalogCounter">1 / 40</div>
             </div>
 
             <!-- Botón flotante para ver carrito -->
@@ -2144,6 +2266,96 @@
                 e.preventDefault();
                 deferredPrompt = e;
             });
+        });
+
+        // Catalog Carousel Functions
+        function scrollCatalogCarousel(direction) {
+            const carousel = document.getElementById('catalogCarousel');
+            const itemWidth = carousel.clientWidth;
+            const scrollAmount = itemWidth * direction;
+            
+            carousel.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+            
+            setTimeout(updateCatalogCounter, 300);
+        }
+
+        function updateCatalogCounter() {
+            const carousel = document.getElementById('catalogCarousel');
+            const items = carousel.querySelectorAll('.catalog-carousel-item');
+            const scrollLeft = carousel.scrollLeft;
+            const itemWidth = carousel.clientWidth;
+            const currentIndex = Math.round(scrollLeft / itemWidth);
+            const counter = document.getElementById('catalogCounter');
+            
+            if (counter && items.length > 0) {
+                const pageNumber = Math.min(currentIndex + 1, items.length);
+                counter.textContent = `${pageNumber} / ${items.length}`;
+            }
+
+            // Update nav buttons
+            const prevBtn = document.querySelector('.catalog-carousel-nav.prev');
+            const nextBtn = document.querySelector('.catalog-carousel-nav.next');
+            
+            if (prevBtn && nextBtn) {
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex >= items.length - 1;
+            }
+        }
+
+        // Initialize carousel
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.getElementById('catalogCarousel');
+            if (carousel) {
+                // Update counter on scroll
+                carousel.addEventListener('scroll', updateCatalogCounter);
+                
+                // Touch/swipe support
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                carousel.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    carousel.style.cursor = 'grabbing';
+                    startX = e.pageX - carousel.offsetLeft;
+                    scrollLeft = carousel.scrollLeft;
+                });
+
+                carousel.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    carousel.style.cursor = 'grab';
+                });
+
+                carousel.addEventListener('mouseup', () => {
+                    isDown = false;
+                    carousel.style.cursor = 'grab';
+                });
+
+                carousel.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - carousel.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    carousel.scrollLeft = scrollLeft - walk;
+                });
+
+                // Keyboard navigation
+                carousel.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        scrollCatalogCarousel(-1);
+                    } else if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        scrollCatalogCarousel(1);
+                    }
+                });
+
+                // Initial counter update
+                updateCatalogCounter();
+            }
         });
 
         // Service Worker registration
