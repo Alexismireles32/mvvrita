@@ -1,5 +1,5 @@
 // Service Worker para PWA - MV Natural
-const CACHE_NAME = 'mvnatural-v2';
+const CACHE_NAME = 'mvnatural-v3';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -17,6 +17,7 @@ self.addEventListener('install', event => {
         console.log('Cache abierto');
         return cache.addAll(urlsToCache);
       })
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -32,7 +33,7 @@ self.addEventListener('activate', event => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
 

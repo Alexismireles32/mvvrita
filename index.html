@@ -802,13 +802,49 @@
             box-shadow: 0 2px 6px rgba(184, 134, 11, 0.3);
         }
 
-        body.downloading .quote-actions-top {
-            visibility: hidden;
-        }
-
         body.downloading .btn-download,
         body.downloading .btn-whatsapp {
             pointer-events: none;
+        }
+
+        .download-result {
+            display: none;
+            margin: 0 0 20px;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--light-cream);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .download-result.active {
+            display: block;
+        }
+
+        .download-result-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .download-result a,
+        .download-result button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 9px 12px;
+            border: none;
+            border-radius: 8px;
+            background: var(--gold);
+            color: #fff;
+            cursor: pointer;
+            font-weight: 700;
+            font: inherit;
+            text-decoration: none;
         }
 
         #quotePrintArea {
@@ -1441,10 +1477,11 @@
                         <span class="button-instruction">Paso 2: envía a Rita Valencia</span>
                     </div>
                 </div>
+                <div id="downloadResult" class="download-result" aria-live="polite"></div>
 
                 <div id="quotePrintArea">
                     <div class="quote-header">
-                        <img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png" alt="MVV Natural Logo" class="quote-logo" loading="eager">
+                        <img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png" alt="MVV Natural Logo" class="quote-logo" loading="eager" crossorigin="anonymous">
                         <h2>COTIZACIÓN</h2>
                         <div id="quoteDate" class="quote-date"></div>
                     </div>
@@ -1692,10 +1729,12 @@
             return null;
         }
 
+        let lastQuoteImageUrl = null;
+
         function waitForImageReady(image) {
             image.loading = 'eager';
 
-            if (image.complete) {
+            if (image.complete && image.naturalWidth > 0) {
                 return Promise.resolve();
             }
 
@@ -1729,6 +1768,69 @@
             await Promise.all(images.map(waitForImageReady));
 
             await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        }
+
+        function canvasToBlob(canvas, type = 'image/jpeg', quality = 0.95) {
+            return new Promise(resolve => {
+                if (!canvas.toBlob) {
+                    resolve(null);
+                    return;
+                }
+
+                canvas.toBlob(resolve, type, quality);
+            });
+        }
+
+        function setDownloadResult(fileName, imageUrl) {
+            const resultEl = document.getElementById('downloadResult');
+            if (!resultEl) return;
+
+            const canShareFile = window.MVV_LAST_QUOTE_FILE
+                && navigator.share
+                && navigator.canShare?.({ files: [window.MVV_LAST_QUOTE_FILE] });
+            const shareButton = canShareFile
+                ? '<button type="button" onclick="shareLastQuoteImage()">Compartir / guardar</button>'
+                : '';
+
+            resultEl.classList.add('active');
+            resultEl.innerHTML = `
+                <strong>Imagen lista.</strong> Si no se guardó automáticamente, usa uno de estos botones:
+                <div class="download-result-actions">
+                    <a href="${imageUrl}" download="${escapeHTML(fileName)}">Descargar de nuevo</a>
+                    <a href="${imageUrl}" target="_blank" rel="noopener">Abrir imagen</a>
+                    ${shareButton}
+                </div>
+            `;
+        }
+
+        function clearDownloadResult() {
+            const resultEl = document.getElementById('downloadResult');
+            if (!resultEl) return;
+
+            resultEl.classList.remove('active');
+            resultEl.innerHTML = '';
+            window.MVV_LAST_QUOTE_FILE = null;
+            window.MVV_LAST_QUOTE_DOWNLOAD = null;
+        }
+
+        async function shareLastQuoteImage() {
+            const file = window.MVV_LAST_QUOTE_FILE;
+            if (!file || !navigator.share || !navigator.canShare?.({ files: [file] })) {
+                alert('⚠️ Tu navegador no permite compartir esta imagen. Usa Descargar de nuevo o Abrir imagen.');
+                return;
+            }
+
+            try {
+                await navigator.share({
+                    files: [file],
+                    title: 'Cotización MVV Natural',
+                    text: 'Cotización MVV Natural'
+                });
+            } catch (error) {
+                if (error?.name !== 'AbortError') {
+                    alert('⚠️ No se pudo abrir el menú para compartir. Usa Descargar de nuevo o Abrir imagen.');
+                }
+            }
         }
 
         window.MVV_PRODUCTS = products;
@@ -2088,6 +2190,10 @@
             const btn = !silent ? (triggerEvent?.currentTarget || triggerEvent?.target || null) : null;
             const originalLabel = btn ? (btn.dataset.originalLabel || btn.innerHTML) : null;
 
+            if (!silent) {
+                clearDownloadResult();
+            }
+
             if (btn) {
                 btn.dataset.originalLabel = originalLabel;
                 btn.innerHTML = '⏳ Preparando…';
@@ -2159,20 +2265,40 @@
                     windowHeight: quotePrintArea.scrollHeight
                 });
 
-                const imgData = canvas.toDataURL('image/jpeg', 0.95);
                 const customerName = formatForFile(localStorage.getItem('customerName'), 'cliente');
                 const quoteDate = getFileDate();
                 const fileName = `cotizacion_${customerName}_${quoteDate}.jpeg`;
+                const blob = await canvasToBlob(canvas, 'image/jpeg', 0.95);
+                const quoteFile = blob && typeof File === 'function'
+                    ? new File([blob], fileName, { type: 'image/jpeg' })
+                    : null;
+                const imageUrl = blob ? URL.createObjectURL(blob) : canvas.toDataURL('image/jpeg', 0.95);
+
+                if (lastQuoteImageUrl?.startsWith('blob:')) {
+                    URL.revokeObjectURL(lastQuoteImageUrl);
+                }
+                lastQuoteImageUrl = imageUrl;
+                window.MVV_LAST_QUOTE_FILE = quoteFile;
+                window.MVV_LAST_QUOTE_DOWNLOAD = {
+                    fileName,
+                    imageUrl,
+                    width: canvas.width,
+                    height: canvas.height,
+                    size: blob?.size || 0
+                };
 
                 const link = document.createElement('a');
                 link.download = fileName;
-                link.href = imgData;
+                link.href = imageUrl;
+                link.rel = 'noopener';
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
 
+                setDownloadResult(fileName, imageUrl);
+
                 if (btn) {
-                    btn.innerHTML = '✅ Imagen Guardada';
+                    btn.innerHTML = '✅ Imagen Lista';
                     setTimeout(() => {
                         btn.innerHTML = btn.dataset.originalLabel || originalLabel || '💾 Guardar Imagen';
                         btn.disabled = false;
@@ -2202,6 +2328,7 @@
         function resetQuote() {
             vibrate(10);
             cart = [];
+            clearDownloadResult();
             updateUI();
             goToStep(1);
         }

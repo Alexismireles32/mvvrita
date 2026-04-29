@@ -203,10 +203,17 @@
 
                 const canvas = await appWindow.downloadQuoteImage(null, { silent: true });
                 const quoteImages = Array.from(appDocument.querySelectorAll('#quotePrintArea img'));
+                const downloadResult = appDocument.getElementById('downloadResult');
+                const quoteActions = appDocument.querySelector('.quote-actions-top');
+                appDocument.body.classList.add('downloading');
+                const actionsStayVisible = appWindow.getComputedStyle(quoteActions).visibility !== 'hidden';
+                appDocument.body.classList.remove('downloading');
 
                 runAssertion(state, quoteImages.every(image => image.complete && image.naturalWidth > 0), 'Todas las imágenes de la cotización cargan antes de exportar');
                 runAssertion(state, canvas.width >= 600 && canvas.height >= 1000, `La imagen final se genera con tamaño válido: ${canvas.width}x${canvas.height}`);
-                runAssertion(state, downloadMeta?.download?.startsWith('cotizacion_cliente_prueba') && downloadMeta.hrefStart === 'data:image/jpeg;base64,' && downloadMeta.hrefLength > 100000 && downloadMeta.inDom, 'La descarga final genera un JPEG con nombre válido');
+                runAssertion(state, downloadMeta?.download?.startsWith('cotizacion_cliente_prueba') && /^blob:|^data:image\/jpeg;base64,/.test(downloadMeta.hrefStart) && downloadMeta.inDom && appWindow.MVV_LAST_QUOTE_DOWNLOAD?.size > 100000, 'La descarga final genera un JPEG con nombre válido');
+                runAssertion(state, downloadResult?.classList.contains('active') && downloadResult.querySelectorAll('a').length === 2, 'La app deja enlaces visibles para descargar o abrir la imagen generada');
+                runAssertion(state, actionsStayVisible, 'Los botones de descarga y WhatsApp permanecen visibles mientras se genera la imagen');
             } catch (error) {
                 runAssertion(state, false, `El flujo de cotización falló: ${error.message}`);
             } finally {
