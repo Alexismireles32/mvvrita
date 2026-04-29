@@ -13,6 +13,7 @@
     <!-- SEO -->
     <meta name="description" content="Sistema de cotizaciones profesional para productos MVV Natural. Crea cotizaciones al instante con precios de mayoreo.">
     <meta name="keywords" content="MVV Natural, cotizaciones, productos naturales, mayoreo">
+    <link rel="icon" href="https://res.cloudinary.com/dsulhqvza/image/upload/v1761550208/mvvnatural_pbzwrl.png">
     
     <!-- Social Media -->
     <meta property="og:title" content="MVV Natural - Cotizaciones">
@@ -726,6 +727,8 @@
         /* Quote Section */
         .quote-wrapper {
             margin: 0 auto;
+            max-width: 920px;
+            width: 100%;
         }
 
         .quote-actions-top {
@@ -958,135 +961,6 @@
             line-height: 1.6;
             margin-bottom: 8px;
         }
-
-        /* Catalog Carousel Section */
-        .catalog-carousel-container {
-            width: 100%;
-            margin: 25px 0;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            background: #000;
-            position: relative;
-        }
-
-        .catalog-carousel-wrapper {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
-            cursor: grab;
-        }
-
-        .catalog-carousel-wrapper:active {
-            cursor: grabbing;
-        }
-
-        .catalog-carousel-wrapper::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
-        }
-
-        .catalog-carousel-item {
-            flex: 0 0 100%;
-            width: 100%;
-            scroll-snap-align: start;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 80vh;
-            background: #000;
-        }
-
-        .catalog-carousel-item img {
-            width: 100%;
-            height: auto;
-            max-height: 90vh;
-            object-fit: contain;
-            display: block;
-            user-select: none;
-            -webkit-user-drag: none;
-        }
-
-        .catalog-carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(184, 134, 11, 0.8);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            transition: all 0.3s;
-            touch-action: manipulation;
-        }
-
-        .catalog-carousel-nav:hover {
-            background: rgba(184, 134, 11, 1);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .catalog-carousel-nav:active {
-            transform: translateY(-50%) scale(0.95);
-        }
-
-        .catalog-carousel-nav.prev {
-            left: 15px;
-        }
-
-        .catalog-carousel-nav.next {
-            right: 15px;
-        }
-
-        .catalog-carousel-nav:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .catalog-carousel-counter {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            z-index: 10;
-        }
-
-        @media (max-width: 768px) {
-            .catalog-carousel-item {
-                min-height: 70vh;
-            }
-
-            .catalog-carousel-nav {
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
-            }
-
-            .catalog-carousel-nav.prev {
-                left: 10px;
-            }
-
-            .catalog-carousel-nav.next {
-                right: 10px;
-            }
-        }
-
         /* Footer */
         .footer {
             background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%);
@@ -1401,8 +1275,8 @@
         <div id="step1" class="step active">
             <div class="info-box">
                 <h3>📋 Información de precios:</h3>
-                <p>Los precios varían según la cantidad de productos (1, 10, 30, 50, 100). Mientras más productos agregue, el precio se actualizará automáticamente para reflejar los descuentos por volumen.</p>
-                <p><strong>Para mayoreo de 10 piezas, pueden ser productos variados. Para mayoreo de 30 piezas o más, deben ser del mismo producto.</strong></p>
+                <p>Lista oficial vigente: <a href="preciosnew.pdf" target="_blank" rel="noopener">preciosnew.pdf</a>. Los precios se calculan por total de piezas en el pedido: 1-9, 10-29, 30-49, 50-99 y 100+.</p>
+                <p><strong>Los productos variados sí cuentan para alcanzar precios de mayoreo. No vender por debajo del costo establecido.</strong></p>
             </div>
 
             <h2 class="section-title">Productos MVV Natural por Rita Valencia</h2>
@@ -1413,56 +1287,8 @@
 
             <div class="shipping-info">
                 <h3>🚚 Información importante sobre envíos:</h3>
-                <p>Si su pedido incluye productos de mayor tamaño como PROTEIN BODY, MAXI FIBRA, GEL TONIC 250 ML o LIDA SHAKE MALTEADA, el precio del envío puede aumentar.</p>
-                <p>Para zonas extendidas o de difícil acceso, se cobrará un costo adicional de envío. Por favor consulte con Rita Valencia para más detalles.</p>
-            </div>
-
-            <div class="catalog-carousel-container">
-                <button class="catalog-carousel-nav prev" onclick="scrollCatalogCarousel(-1)" aria-label="Imagen anterior">‹</button>
-                <div class="catalog-carousel-wrapper" id="catalogCarousel">
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549460/catalogo-mvv-natural-1_qihzmj.webp" alt="Catálogo página 1" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549478/catalogo-mvv-natural-2_c6pjzx.webp" alt="Catálogo página 2" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvv-natural-3_fpfmfj.webp" alt="Catálogo página 3" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549485/catalogo-mvv-natural-4_hmppua.webp" alt="Catálogo página 4" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549505/catalogo-mvv-natural-5_bzvrlg.webp" alt="Catálogo página 5" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549504/catalogo-mvv-natural-6_hdrlbr.webp" alt="Catálogo página 6" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549482/catalogo-mvv-natural-7_wzfkvr.webp" alt="Catálogo página 7" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549507/catalogo-mvv-natural-8_kctrrh.webp" alt="Catálogo página 8" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549507/catalogo-mvv-natural-9_da08s1.webp" alt="Catálogo página 9" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549517/catalogo-mvv-natural-10_vs3aqv.webp" alt="Catálogo página 10" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549520/catalogo-mvv-natural-11_we83am.webp" alt="Catálogo página 11" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549528/catalogo-mvv-natural-12_pd7yxq.webp" alt="Catálogo página 12" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549515/catalogo-mvv-natural-13_lcfatz.webp" alt="Catálogo página 13" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-14_obho2e.webp" alt="Catálogo página 14" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549522/catalogo-mvv-natural-15_qpsuiu.webp" alt="Catálogo página 15" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-16_yiewjp.webp" alt="Catálogo página 16" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549535/catalogo-mvv-natural-17_lvwwel.webp" alt="Catálogo página 17" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549538/catalogo-mvv-natural-18_l4r57w.webp" alt="Catálogo página 18" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549552/catalogo-mvv-natural-19_nbmjhq.webp" alt="Catálogo página 19" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549548/catalogo-mvv-natural-20_aihpsv.webp" alt="Catálogo página 20" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvv-natural-21_rcrlmk.webp" alt="Catálogo página 21" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549549/catalogo-mvv-natural-22_bvgzpm.webp" alt="Catálogo página 22" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvv-natural-23_jdfcan.webp" alt="Catálogo página 23" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549560/catalogo-mvv-natural-24_svcf1o.webp" alt="Catálogo página 24" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549796/catalogo-mvv-natural-25_mbl2mh.webp" alt="Catálogo página 25" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549558/catalogo-mvv-natural-26_aqrhoz.webp" alt="Catálogo página 26" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549572/catalogo-mvv-natural-27_ohefys.webp" alt="Catálogo página 27" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvv-natural-28_br04nr.webp" alt="Catálogo página 28" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549565/catalogo-mvv-natural-29_fqn4vq.webp" alt="Catálogo página 29" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549581/catalogo-mvv-natural-30_xiyils.webp" alt="Catálogo página 30" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549586/catalogo-mvv-natural-31_jg76gh.webp" alt="Catálogo página 31" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549573/catalogo-mvv-natural-32_r5ipwu.webp" alt="Catálogo página 32" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549586/catalogo-mvv-natural-33_tpgqj5.webp" alt="Catálogo página 33" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549588/catalogo-mvv-natural-34_ingp1d.webp" alt="Catálogo página 34" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549584/catalogo-mvv-natural-35_ao2pay.webp" alt="Catálogo página 35" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549664/catalogo-mvv-natural-36_omardo.webp" alt="Catálogo página 36" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549659/catalogo-mvv-natural-37_jbem0i.webp" alt="Catálogo página 37" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549664/catalogo-mvv-natural-38_ekzkq5.webp" alt="Catálogo página 38" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549663/catalogo-mvv-natural-39_s96fds.webp" alt="Catálogo página 39" loading="lazy"></div>
-                    <div class="catalog-carousel-item"><img src="https://res.cloudinary.com/dsulhqvza/image/upload/v1761549663/catalogo-mvv-natural-40_w0njj9.webp" alt="Catálogo página 40" loading="lazy"></div>
-                </div>
-                <button class="catalog-carousel-nav next" onclick="scrollCatalogCarousel(1)" aria-label="Imagen siguiente">›</button>
-                <div class="catalog-carousel-counter" id="catalogCounter">1 / 40</div>
+                <p>El envío y el seguro se cotizan por separado antes de confirmar el pedido.</p>
+                <p>Una vez entregado el pedido a paquetería, cualquier situación se trata directamente con la paquetería.</p>
             </div>
 
             <!-- Botón flotante para ver carrito -->
@@ -1496,11 +1322,11 @@
                         <span id="subtotal">$0</span>
                     </div>
                     <div class="cart-summary-row">
-                        <span>Envío (Estafeta):</span>
-                        <span id="shipping">$0</span>
+                        <span>Envío/seguro:</span>
+                        <span id="shipping">Por confirmar</span>
                     </div>
                     <div class="cart-summary-row cart-total">
-                        <span>Total:</span>
+                        <span>Total productos:</span>
                         <span id="total">$0</span>
                     </div>
                 </div>
@@ -1643,17 +1469,17 @@
                             <span id="quoteSubtotal">$0</span>
                         </div>
                         <div class="quote-summary-row">
-                            <span>Envío (Estafeta):</span>
-                            <span id="quoteShipping">$0</span>
+                            <span>Envío/seguro:</span>
+                            <span id="quoteShipping">Por confirmar</span>
                         </div>
                         <div class="quote-summary-row quote-total-row">
-                            <span>Total:</span>
+                            <span>Total productos:</span>
                             <span id="quoteTotal">$0</span>
                         </div>
                     </div>
 
                     <div class="quote-note">
-                        <strong>Nota:</strong> Esta cotización está sujeta a aprobación por Rita Valencia. El precio final puede variar según disponibilidad de productos. Para confirmar su pedido, por favor envíe esta cotización a Rita Valencia vía WhatsApp al número +526312982043.
+                        <strong>Nota:</strong> Esta cotización usa la lista oficial vigente preciosnew.pdf. El envío y seguro se cotizan por separado. Para confirmar su pedido, por favor envíe esta cotización a Rita Valencia vía WhatsApp al número +526312982043.
                     </div>
                 </div>
 
@@ -1669,104 +1495,135 @@
     </div>
 
     <script>
-        // Array de 91 productos - Reordenados: primero los que tienen imagen, luego los que no
-        const products = [
-            // PRODUCTOS CON IMAGEN (orden prioritario)
-            { id: "2B", name: "DUO 60 FUSION XTREME", price: 900, price10: 480, price30: 450, price50: 420, price100: 400, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/Duo-60fusion_xhsjhs.png" },
-            { id: "3O", name: "ALPHA GLOW", price: 900, price10: 520, price30: 500, price50: 480, price100: 460, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575532/alphaglow_jwu8mg.png" },
-            { id: "2K", name: "CHUPA PANZA CAPS.", price: 300, price10: 220, price30: 200, price50: 185, price100: 165, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575545/chupapanza_m7zfgs.png" },
-            { id: "3U", name: "PRIME ROSE", price: 400, price10: 220, price30: 195, price50: 175, price100: 150, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575597/primerose_jk26zj.png" },
-            { id: "5H", name: "LIDA BOOSTER PINK", price: 850, price10: 500, price30: 480, price50: 460, price100: 440, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575576/Lidabooster_xd5mo9.png" },
-            { id: "1A", name: "LIPO HD 360", price: 700, price10: 380, price30: 350, price50: 320, price100: 300, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575584/lipohd_zg9lxy.png" },
-            { id: "8H", name: "SOS BURN", price: 650, price10: 380, price30: 350, price50: 320, price100: 300, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575596/sosburn_g2ui2b.png" },
-            { id: "9I", name: "SOS BURN SENSITIVE", price: 650, price10: 380, price30: 350, price50: 320, price100: 300, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575600/sosburnsensitive_dfsrs1.png" },
-            { id: "1J", name: "SOS BURN CLEAN", price: 450, price10: 230, price30: 200, price50: 195, price100: 175, image: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761575602/sosburnclear_iuyqej.png" },
-            { id: "3L", name: "30 DAY DETOX", price: 450, price10: 220, price30: 195, price50: 175, price100: 150, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575526/30daydetox_roziws.png" },
-            { id: "3C", name: "FUSION 30 XTREME", price: 650, price10: 380, price30: 350, price50: 300, price100: 280, image: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761575561/duo30fusion_t59hk3.png" },
-            { id: "5E", name: "CM PUSH UP MEN", price: 450, price10: 230, price30: 200, price50: 195, price100: 175, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575544/cmpushup_ncxzh6.png" },
-            { id: "6F", name: "H - FLEX", price: 400, price10: 175, price30: 150, price50: 135, price100: 120, image: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761575569/hflex_itxafl.png" },
-            { id: "9R", name: "MACA PREMIUM HOMBRE", price: 350, price10: 150, price30: 135, price50: 125, price100: 120, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575588/macapremium_s6k65z.png" },
-            { id: "1S", name: "SERENITY", price: 400, price10: 150, price30: 135, price50: 125, price100: 120, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575589/serenity_mnncq7.png" },
-            { id: "2T", name: "COLIT 6", price: 350, price10: 150, price30: 135, price50: 125, price100: 120, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575551/colit6_te7kpi.png" },
-            { id: "3W", name: "APPLE CIDER VINAGRE", price: 550, price10: 350, price30: 320, price50: null, price100: 300, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575550/applecyder_xxg1ps.png" },
-            { id: "2E", name: "E DETOX", price: 350, price10: 150, price30: 125, price50: null, price100: 100, image: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761575574/edetox_xowiou.png" },
-            { id: "3F", name: "FAT BLAZER", price: 800, price10: 450, price30: 420, price50: 400, price100: 380, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761578536/fatblazer_vw1fks.png" },
-            { id: "6I", name: "ENCIMAX", price: 600, price10: 350, price30: 330, price50: 310, price100: 290, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575578/encimax_kuhluy.png" },
-            { id: "7J", name: "FLORYVA", price: 500, price10: 280, price30: 260, price50: 240, price100: 220, image: "https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575563/floryva_nb3b0y.png" },
-            { id: "6Z", name: "SLIM COFFEE", price: 450, price10: 220, price30: 200, price50: null, price100: 185, image: "https://res.cloudinary.com/dsulhqvza/image/upload/v1761575594/slimcoffe_taahyd.png" },
-            // PRODUCTOS SIN IMAGEN (orden original)
-            { id: "4D", name: "EXTRACTO CBD", price: 450, price10: 185, price30: 165, price50: 150, price100: 130 },
-            { id: "7G", name: "PROTEIN BODY", price: 450, price10: 250, price30: 220, price50: null, price100: 220 },
-            { id: "4M", name: "15 DAY DETOX TEA", price: 300, price10: 125, price30: 125, price50: 95, price100: 90 },
-            { id: "5N", name: "3 DAY RESET", price: 250, price10: 100, price30: 85, price50: 75, price100: 70 },
-            { id: "6O", name: "COLAGENO & BIOTINA ACIDO HIALURONICO", price: 400, price10: 200, price30: 195, price50: 175, price100: 175 },
-            { id: "7P", name: "MAXI FIBRA", price: 250, price10: 175, price30: 150, price50: 135, price100: 135 },
-            { id: "8Q", name: "MACA PREMIUM MUJER", price: 350, price10: 150, price30: 135, price50: 125, price100: 120 },
-            { id: "4V", name: "DAILY WORK", price: 400, price10: 220, price30: 195, price50: 175, price100: 150 },
-            { id: "5W", name: "BIKINI STRONG PINK", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "6X", name: "BIKINI STRONG BLUE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "7Y", name: "BIKINI STRONG YELLOW", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "8Z", name: "BIKINI STRONG PURPLE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "9A", name: "BIKINI STRONG BLACK", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "1B", name: "BIKINI STRONG WHITE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "2C", name: "LIPO PLUS XTREME", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "3D", name: "LIPO PLUS XTREME GOLD", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "4E", name: "LIPO PLUS XTREME PLATINUM", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "5F", name: "LIPO PLUS XTREME BLACK", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "6G", name: "LIPO PLUS XTREME PINK", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "7H", name: "LIPO PLUS XTREME BLUE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "8I", name: "LIPO PLUS XTREME GREEN", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "9J", name: "LIPO PLUS XTREME RED", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "1K", name: "LIPO PLUS XTREME YELLOW", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "2L", name: "LIPO PLUS XTREME PURPLE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "3M", name: "LIPO PLUS XTREME ORANGE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "4N", name: "LIPO PLUS XTREME BROWN", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "5O", name: "LIPO PLUS XTREME GRAY", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "6P", name: "LIPO PLUS XTREME WHITE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "7Q", name: "LIPO PLUS XTREME SILVER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "8R", name: "LIPO PLUS XTREME BRONZE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "9S", name: "LIPO PLUS XTREME COPPER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "1T", name: "LIPO PLUS XTREME TITANIUM", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "2U", name: "LIPO PLUS XTREME PLATINUM GOLD", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "3V", name: "LIPO PLUS XTREME PLATINUM SILVER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "4W", name: "LIPO PLUS XTREME PLATINUM BRONZE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "5X", name: "LIPO PLUS XTREME PLATINUM COPPER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "6Y", name: "LIPO PLUS XTREME PLATINUM TITANIUM", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "7Z", name: "LIPO PLUS XTREME GOLD SILVER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "8A", name: "LIPO PLUS XTREME GOLD BRONZE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "9B", name: "LIPO PLUS XTREME GOLD COPPER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "1C", name: "LIPO PLUS XTREME GOLD TITANIUM", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "2D", name: "LIPO PLUS XTREME SILVER BRONZE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "3E", name: "LIPO PLUS XTREME SILVER COPPER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "4F", name: "LIPO PLUS XTREME SILVER TITANIUM", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "5G", name: "LIPO PLUS XTREME BRONZE COPPER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "6H", name: "LIPO PLUS XTREME BRONZE TITANIUM", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "7I", name: "LIPO PLUS XTREME COPPER TITANIUM", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "8J", name: "LIPO PLUS XTREME PLATINUM GOLD SILVER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "9K", name: "LIPO PLUS XTREME PLATINUM GOLD BRONZE", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "1L", name: "LIPO PLUS XTREME PLATINUM GOLD COPPER", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "2M", name: "LIPO PLUS XTREME PLATINUM GOLD TITANIUM", price: 700, price10: 380, price30: 350, price50: 320, price100: 300 },
-            { id: "3N", name: "GEL TONIC", price: 350, price10: 150, price30: 135, price50: 125, price100: 120 },
-            { id: "4O", name: "LIDA GLOW AZUL", price: 800, price10: 490, price30: 470, price50: 470, price100: null },
-            { id: "5P", name: "LIDA GLOW ROSA", price: 800, price10: 490, price30: 470, price50: 470, price100: null },
-            { id: "6Q", name: "MACA FEM", price: 500, price10: 490, price30: 470, price50: 470, price100: null },
-            { id: "7R", name: "MACA FEM PLUS", price: 700, price10: 450, price30: 430, price50: 430, price100: null },
-            { id: "8S", name: "SBELTA 24/7", price: 700, price10: 420, price30: 400, price50: 400, price100: null },
-            { id: "9T", name: "PIÑA INTENSE BYPASS", price: 350, price10: 230, price30: 210, price50: 210, price100: null },
-            { id: "1U", name: "DESPANZATE BYPASS", price: 400, price10: 260, price30: 240, price50: 240, price100: null },
-            { id: "2V", name: "KETO BURN", price: 850, price10: 450, price30: 430, price50: null, price100: 400 },
-            { id: "4X", name: "KETO DETOX", price: 550, price10: 350, price30: 300, price50: null, price100: 280 },
-            { id: "5Y", name: "KETO GOTAS", price: 450, price10: 185, price30: 165, price50: null, price100: 150 },
-            { id: "7A", name: "TE BODY SHAPE", price: 300, price10: 125, price30: 100, price50: null, price100: 85 },
-            { id: "8B", name: "BYPASS DELUXE BLANCO", price: 700, price10: 450, price30: 450, price50: null, price100: null },
-            { id: "9C", name: "TE ENERGOBOLIZER", price: 400, price10: 235, price30: 200, price50: null, price100: null },
-            { id: "1D", name: "TE MENOS 4K BYPASS", price: 380, price10: 230, price30: 200, price50: null, price100: null },
-            { id: "4G", name: "FAT BURNER MAN", price: 750, price10: 430, price30: 400, price50: 380, price100: 360 },
-            { id: "8K", name: "LIDA GLAM", price: 820, price10: 480, price30: 460, price50: 440, price100: 420 },
-            { id: "9L", name: "XL3 POTENCIA TOTAL", price: 780, price10: 450, price30: 430, price50: 410, price100: 390 },
-            { id: "1M", name: "XL3 NOCTURNO", price: 800, price10: 460, price30: 440, price50: 420, price100: 400 },
-            { id: "2N", name: "LIDA PLUS CHICA", price: 750, price10: 430, price30: 410, price50: 390, price100: 370 }
+        const PRICE_RULE_SOURCE = 'preciosnew.pdf';
+        const PRODUCT_ROWS = [
+            ['FAT BLAZER', 850, 490, 460, 430, 390, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761578536/fatblazer_vw1fks.png'],
+            ['DUO 60 FUSION XTREME', 980, 520, 470, 450, 420, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/Duo-60fusion_xhsjhs.png'],
+            ['DUO 30 FUSION XTREME', 700, 400, 370, 340, 300, 'https://res.cloudinary.com/dsulhqvza/image/upload/v1761575561/duo30fusion_t59hk3.png'],
+            ['SOS BURN', 700, 400, 370, 340, 300, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575596/sosburn_g2ui2b.png'],
+            ['SOS BURN SENSITIVE', 700, 400, 370, 340, 300, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575600/sosburnsensitive_dfsrs1.png'],
+            ['THYROIDE SUPPORT', 700, 400, 370, 340, 300, 'assets/products/006-thyroide-support.webp'],
+            ['LIPO HD 360', 700, 400, 370, 340, 300, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575584/lipohd_zg9lxy.png'],
+            ['SLIM U', 700, 400, 370, 340, 300, 'assets/products/008-slim-u.webp'],
+            ['ALPHA GLOW', 700, 400, 370, 340, 300, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575532/alphaglow_jwu8mg.png'],
+            ['BIKINI TRIM FAST AMARILLA', 700, 400, 370, 340, 300, 'assets/products/010-bikini-trim-fast-amarilla.webp'],
+            ['BIKINI STRONG ROSA', 700, 400, 370, 340, 300, 'assets/products/011-bikini-strong-rosa.webp'],
+            ['BIKINI TRIM DORADA', 700, 400, 370, 340, 300, 'assets/products/012-bikini-trim-dorada.webp'],
+            ['TE ENERGOBOLIZER INFUSION', 400, 235, 235, 235, 235, 'assets/products/013-te-energobolizer-infusion.webp'],
+            ['LIDA DAIDAIHUA BOOSTER', 700, 400, 370, 340, 300, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575576/Lidabooster_xd5mo9.png'],
+            ['LIDA BOOSTER ROSA', 700, 400, 370, 340, 300, 'assets/products/015-lida-booster-rosa.webp'],
+            ['BALANCE PESO IDEAL', 700, 380, 350, 320, 280, 'assets/products/016-balance-peso-ideal.webp'],
+            ['LIDA DAIDAIHUA PLUS', 700, 380, 350, 320, 280, 'assets/products/017-lida-daidaihua-plus.webp'],
+            ['LIDA DAIDAIHUA CAJA', 700, 380, 350, 320, 280, 'assets/products/018-lida-daidaihua-caja.webp'],
+            ['BODY SHAPE', 650, 380, 350, 320, 280, 'assets/products/019-body-shape.webp'],
+            ['SLIMER XTREME', 650, 380, 350, 320, 280, 'assets/products/020-slimer-xtreme.webp'],
+            ['SLIM 24', 650, 380, 350, 320, 280, 'assets/products/021-slim-24.webp'],
+            ['EXTRACTO CBD', 450, 185, 165, 150, 130, 'assets/products/022-extracto-cbd.webp'],
+            ['CM PUSH UP MEN', 500, 250, 220, 195, 175, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575544/cmpushup_ncxzh6.png'],
+            ['MENS EXOTIC', 500, 250, 220, 195, 175, 'assets/products/024-mens-exotic.webp'],
+            ['PRIME ROSE', 500, 250, 220, 195, 175, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575597/primerose_jk26zj.png'],
+            ['H - FLEX', 400, 185, 165, 150, 135, 'https://res.cloudinary.com/dsulhqvza/image/upload/v1761575569/hflex_itxafl.png'],
+            ['E DETOX PLUS', 500, 240, 220, 195, 175, 'https://res.cloudinary.com/dsulhqvza/image/upload/v1761575574/edetox_xowiou.png'],
+            ['30 DAY DETOX', 480, 240, 220, 195, 175, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575526/30daydetox_roziws.png'],
+            ['CHUPA PANZA CAPS.', 500, 240, 220, 195, 175, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575545/chupapanza_m7zfgs.png'],
+            ['SOS BURN CLEAN', 480, 240, 220, 195, 175, 'https://res.cloudinary.com/dsulhqvza/image/upload/v1761575602/sosburnclear_iuyqej.png'],
+            ['15 DAY DETOX TEA', 250, 125, 110, 90, 75, 'assets/products/031-15-day-detox-tea.webp'],
+            ['3 DAY RESET', 250, 125, 110, 90, 75, 'assets/products/032-3-day-reset.webp'],
+            ['COLAGENO & BIOTINA CPS', 450, 195, 175, 175, 175, 'assets/products/033-colageno-biotina-cps.webp'],
+            ['MAXI FIBRA', 280, 175, 150, 135, 135, 'assets/products/034-maxi-fibra.webp'],
+            ['MACA PREMIUM MUJER', 400, 150, 130, 120, 110, 'assets/products/035-maca-premium-mujer.webp'],
+            ['MACA PREMIUM HOMBRE', 400, 150, 130, 120, 110, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575588/macapremium_s6k65z.png'],
+            ['MEIZITANG GEL', 550, 350, 300, 280, 280, 'assets/products/037-meizitang-gel.webp'],
+            ['COLIT 6', 400, 175, 150, 135, 125, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575551/colit6_te7kpi.png'],
+            ['ASHWAGANDHA', 450, 175, 150, 135, 125, 'assets/products/039-ashwagandha.webp'],
+            ['SERENITY', 400, 175, 150, 135, 125, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575589/serenity_mnncq7.png'],
+            ['HIGA2', 500, 250, 235, 220, 200, 'assets/products/041-higa2.webp'],
+            ['MAGIC BOOTY UP', 450, 185, 165, 150, 135, 'assets/products/042-magic-booty-up.webp'],
+            ['SLIM COFFELAGENO 100 MG', 450, 195, 195, 175, 150],
+            ['SLIM COFFE 100 MG', 450, 195, 195, 175, 150, 'https://res.cloudinary.com/dsulhqvza/image/upload/v1761575594/slimcoffe_taahyd.png'],
+            ['INOSITOL', 400, 185, 165, 150, 135, 'assets/products/045-inositol.webp'],
+            ['ENERGY UP', 300, 175, 150, 130, 110, 'assets/products/046-energy-up.webp'],
+            ['SLIM SHAKE MACA', 380, 175, 150, 130, 125, 'assets/products/047-slim-shake-maca.webp'],
+            ['LIDA SHAKE MALTEADA', 380, 195, 175, 150, 150, 'assets/products/048-lida-shake-malteada.webp'],
+            ['TE BODY SHAPE', 280, 135, 110, 90, 75, 'assets/products/049-te-body-shape.webp'],
+            ['BLUEBERRY COLAGENO POLVO', 400, 135, 125, 100, 100, 'assets/products/050-blueberry-colageno-polvo.webp'],
+            ['BIKINI PARCHES', 200, 125, 100, 90, 85, 'assets/products/051-bikini-parches.webp'],
+            ['LIDA PARCHES AZUL Y ROSA', 200, 125, 100, 90, 85],
+            ['LIDA DAIDAIHUA SLIMMING TEA', 200, 125, 100, 90, 85, 'assets/products/053-lida-daidaihua-slimming-tea.webp'],
+            ['BERBERINA', 400, 185, 165, 150, 125],
+            ['VENESSE', 400, 185, 165, 150, 135, 'assets/products/055-venesse.webp'],
+            ['JUGO VERDE 250 G', 350, 125, 125, 105, 90, 'assets/products/056-jugo-verde-250-g.webp'],
+            ['ENZIMAX', 350, 175, 175, 150, 140, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575578/encimax_kuhluy.png'],
+            ['MG5 MAGNESIOS', 350, 185, 165, 150, 125],
+            ['FLORYVA VERDE', 400, 185, 165, 150, 135],
+            ['FLORYVA ROSA PROBIOTICO', 400, 185, 165, 150, 135],
+            ['PROTEIN BODY', 400, 230, 200, 185, 185, 'assets/products/061-protein-body.webp'],
+            ['GEL TONIC', 250, 125, 115, 95, 75],
+            ['GEL LIDA AZUL Y ROSA', 200, 100, 100, 85, 85],
+            ['GEL VENNESE', 250, 125, 115, 85, 85],
+            ['GOTAS E DETOX', 350, 150, 125, 100, 85],
+            ['KETO CAFE', 400, 200, 185, 150, 150],
+            ['KETO BURN', 1000, 480, 480, 450, 420],
+            ['KETO BURN GOTAS 60ML', 450, 185, 165, 140, 120],
+            ['KETO DETOX', 600, 320, 300, 280, 280],
+            ['APPLE CIDER', 300, 150, 125, 125, 100, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575550/applecyder_xxg1ps.png'],
+            ['APPLE CIDER QUEMADOR', 600, 350, 320, 300, 280],
+            ['MAXI FIT 250 G', 250, 125, 100, 90, 85],
+            ['DAILY WORK', 650, 380, 350, 320, 300, 'assets/products/073-daily-work.webp'],
+            ['DAILY URBAN', 650, 380, 350, 320, 300],
+            ['DAILY 7 LIKE FACTOR', 650, 380, 350, 320, 300, 'assets/products/075-daily-7-like-factor.webp'],
+            ['DAILY MEN FAT BURNER', 650, 380, 350, 320, 300, 'assets/products/076-daily-men-fat-burner.webp'],
+            ['DAILY EQUILIBRUM', 650, 350, 320, 300, 280, 'assets/products/077-daily-equilibrum.webp'],
+            ['DAILY BYE BELLY ACELERATOR', 450, 250, 220, 220, 200],
+            ['DAILY DETOX & GLOW', 450, 250, 220, 220, 200],
+            ['DAILY TE', 300, 220, 220, 220, 200],
+            ['BEAUTY 911 T', 700, 410, 380, 365, 350, 'assets/products/081-beauty-911-t.webp'],
+            ['INTENSE DETOX TUMMY TUCK', 480, 270, 260, 250, 240],
+            ['BYPASS SELECT DORADA', 840, 515, 495, 475, 455, 'assets/products/083-bypass-select-dorada.webp'],
+            ['BYPASS DELUXE BLANCA', 700, 490, 470, 450, 430, 'assets/products/084-bypass-deluxe-blanca.webp'],
+            ['BYPASS PREMIUM VERDE', 690, 440, 420, 399, 399, 'assets/products/085-bypass-premium-verde.webp'],
+            ['BYPASS 3 XL DOBLE POTENCIA', 950, 560, 540, 515, 500, 'assets/products/086-bypass-3-xl-doble-potencia.webp'],
+            ['BYPASS 3 XL NOCTURNO', 530, 350, 330, 320, 310],
+            ['SBELTA 24/7', 740, 430, 410, 395, 380, 'assets/products/088-sbelta-24-7.webp'],
+            ['LIDA GLAM ROSA', 800, 480, 465, 450, 430, 'assets/products/089-lida-glam-rosa.webp'],
+            ['MACA FEM', 530, 315, 300, 285, 430, 'assets/products/090-maca-fem.webp'],
+            ['MACA FEM PLUS', 735, 460, 440, 430, 415, 'assets/products/091-maca-fem-plus.webp'],
+            ['PIÑA INTENSE', 370, 230, 210, 190, 180],
+            ['DESPARAZATE', 320, 220, 190, 170, 160],
+            ['LIDA THERMO DETOX ROJA', 530, 340, 330, 315, 300],
+            ['TE DESPANZATE', 420, 260, 240, 220, 210],
+            ['BYPASS ZERO', 530, 320, 300, 280, 265],
+            ['LIPO TALLA BLUE SIZE', 850, 530, 500, 450, 420, 'assets/products/097-lipo-talla-blue-size.webp'],
+            ['LIPO TALLA HIPERTENSOS', 850, 530, 500, 450, 420, 'assets/products/098-lipo-talla-hipertensos.webp'],
+            ['LIPO TALLA LACTANCIA', 750, 420, 380, 350, 320],
+            ['LIPO CHUPAPANZA', 650, 350, 330, 290, 240],
+            ['LIPO DETOX', 650, 350, 330, 290, 240],
+            ['LIPO PUSH UP', 450, 300, 270, 230, 190],
+            ['LIPO BUENAS NOCHES', 600, 190, 150, 130, 130],
+            ['LIPO TALLA NIGHT ROSA', 650, 350, 320, 280, 250, 'assets/products/104-lipo-talla-night-rosa.webp'],
+            ['LIPO SIRENA', 1000, 650, 625, 580, 550],
+            ['LIPO TALLA CAFE', 500, 250, 250, 250, 200],
+            ['LIPO SHAKE MALTEADA', 500, 330, 310, 280, 250],
+            ['LIPO BARBIE', 850, 650, 550, 500, 450, 'assets/products/108-lipo-barbie.webp'],
         ];
+
+        const products = PRODUCT_ROWS.map(([name, price, price10, price30, price50, price100, image], index) => {
+            const product = {
+                id: `P${String(index + 1).padStart(3, '0')}`,
+                name,
+                price,
+                price10,
+                price30,
+                price50,
+                price100
+            };
+
+            if (image) {
+                product.image = image;
+            }
+
+            return product;
+        });
 
         let cart = [];
         let currentStep = 1;
@@ -1783,29 +1640,101 @@
             return '$' + price.toFixed(0);
         }
 
-        // Calcular precio según cantidad
-        function calculatePrice(product, quantity, totalQuantity) {
-            let unitPrice = product.price;
+        function escapeHTML(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[char]);
+        }
 
-            if (quantity >= 100 && product.price100 !== null) {
-                unitPrice = product.price100;
-            } else if (quantity >= 50 && product.price50 !== null) {
-                unitPrice = product.price50;
-            } else if (quantity >= 30 && product.price30 !== null) {
-                unitPrice = product.price30;
-            } else if (totalQuantity >= 10) {
-                unitPrice = product.price10;
+        function normalizeQuantity(value) {
+            const numericValue = Number(value);
+            if (!Number.isFinite(numericValue)) return 0;
+            return Math.max(0, Math.floor(numericValue));
+        }
+
+        function formatPendingCost(value) {
+            return value === null ? 'Por confirmar' : formatPrice(value);
+        }
+
+        function getCartTotalQuantity() {
+            return cart.reduce((sum, item) => sum + normalizeQuantity(item.quantity), 0);
+        }
+
+        function hasCartItems() {
+            return cart.some(item => normalizeQuantity(item.quantity) > 0 && products.some(product => product.id === item.id));
+        }
+
+        function normalizeCart() {
+            cart = cart
+                .map(item => ({ ...item, quantity: normalizeQuantity(item.quantity) }))
+                .filter(item => item.quantity > 0 && products.some(product => product.id === item.id));
+        }
+
+        function getPriceTier(totalQuantity) {
+            if (totalQuantity >= 100) return 'price100';
+            if (totalQuantity >= 50) return 'price50';
+            if (totalQuantity >= 30) return 'price30';
+            if (totalQuantity >= 10) return 'price10';
+            return 'price';
+        }
+
+        // Calcular precio según el total de piezas del pedido.
+        function calculatePrice(product, quantity, totalQuantity) {
+            return product[getPriceTier(totalQuantity)];
+        }
+
+        // El documento oficial no define una tarifa fija de envío.
+        function calculateShipping(totalQuantity) {
+            return null;
+        }
+
+        function waitForImageReady(image) {
+            image.loading = 'eager';
+
+            if (image.complete) {
+                return Promise.resolve();
             }
 
-            return unitPrice;
+            return new Promise(resolve => {
+                let timeoutId;
+                const finish = () => {
+                    clearTimeout(timeoutId);
+                    image.removeEventListener('load', finish);
+                    image.removeEventListener('error', finish);
+                    resolve();
+                };
+
+                timeoutId = setTimeout(finish, 8000);
+                image.addEventListener('load', finish, { once: true });
+                image.addEventListener('error', finish, { once: true });
+
+                if (image.decode) {
+                    image.decode().then(finish).catch(() => {
+                        if (image.complete) finish();
+                    });
+                }
+            });
         }
 
-        // Calcular costo de envío
-        function calculateShipping(totalQuantity) {
-            if (totalQuantity >= 50) return 300;
-            if (totalQuantity >= 30) return 235;
-            return 165;
+        async function waitForQuoteAssets(quotePrintArea) {
+            if (document.fonts?.ready) {
+                await document.fonts.ready.catch(() => {});
+            }
+
+            const images = Array.from(quotePrintArea.querySelectorAll('img'));
+            await Promise.all(images.map(waitForImageReady));
+
+            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         }
+
+        window.MVV_PRODUCTS = products;
+        window.MVV_PRICE_RULE_SOURCE = PRICE_RULE_SOURCE;
+        window.MVV_CALCULATE_PRICE = calculatePrice;
+        window.MVV_CALCULATE_SHIPPING = calculateShipping;
 
         // Renderizar productos
         function renderProducts() {
@@ -1816,17 +1745,18 @@
             );
 
             const grid = document.getElementById('productsGrid');
-            const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalQuantity = getCartTotalQuantity();
 
             grid.innerHTML = filtered.map(product => {
                 const cartItem = cart.find(item => item.id === product.id);
                 const quantity = cartItem ? cartItem.quantity : 0;
                 const currentPrice = calculatePrice(product, quantity, totalQuantity);
+                const productName = escapeHTML(product.name);
 
                 return `
                     <div class="product-card">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">` : ''}
-                        <div class="product-name">${product.name}</div>
+                        ${product.image ? `<img src="${product.image}" alt="${productName}" class="product-image" loading="lazy">` : ''}
+                        <div class="product-name">${productName}</div>
                         <div class="product-controls">
                             <div class="product-price">${formatPrice(currentPrice)}</div>
                             ${quantity > 0 ? `
@@ -1837,7 +1767,7 @@
                                     <button class="qty-btn" onclick="changeQuantity('${product.id}', 1)" aria-label="Aumentar cantidad">+</button>
                                 </div>
                             ` : `
-                                <button class="btn-add" onclick="changeQuantity('${product.id}', 1)" aria-label="Agregar ${product.name}">Agregar al carrito</button>
+                                <button class="btn-add" onclick="changeQuantity('${product.id}', 1)" aria-label="Agregar ${productName}">Agregar al carrito</button>
                             `}
                         </div>
                     </div>
@@ -1849,10 +1779,12 @@
         function changeQuantity(productId, delta) {
             vibrate(10);
             const product = products.find(p => p.id === productId);
+            if (!product) return;
+
             const cartItem = cart.find(item => item.id === productId);
             
             if (cartItem) {
-                cartItem.quantity += delta;
+                cartItem.quantity = normalizeQuantity(cartItem.quantity + delta);
                 if (cartItem.quantity <= 0) {
                     cart = cart.filter(item => item.id !== productId);
                 }
@@ -1865,7 +1797,10 @@
 
         // Establecer cantidad
         function setQuantity(productId, value) {
-            const quantity = parseInt(value) || 0;
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const quantity = normalizeQuantity(value);
             
             if (quantity <= 0) {
                 cart = cart.filter(item => item.id !== productId);
@@ -1889,45 +1824,51 @@
 
         // Renderizar carrito
         function renderCart() {
+            normalizeCart();
+
             const cartItemsEl = document.getElementById('cartItems');
             const cartSummaryEl = document.getElementById('cartSummary');
 
-            if (cart.length === 0) {
+            if (!hasCartItems()) {
                 cartItemsEl.innerHTML = '<div class="cart-empty">🛒 El carrito está vacío.<br>Agregue productos para continuar.</div>';
                 cartSummaryEl.style.display = 'none';
                 updateFloatingCartButton(0, 0);
                 return;
             }
 
-            const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalQuantity = getCartTotalQuantity();
             let subtotal = 0;
 
             cartItemsEl.innerHTML = cart.map(item => {
                 const product = products.find(p => p.id === item.id);
+                if (!product) return '';
+
+                item.quantity = normalizeQuantity(item.quantity);
                 const unitPrice = calculatePrice(product, item.quantity, totalQuantity);
                 const itemTotal = unitPrice * item.quantity;
                 subtotal += itemTotal;
+                const productName = escapeHTML(product.name);
 
                 return `
                     <div class="cart-item">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}" class="cart-item-image" loading="lazy">` : '<div class="cart-item-image" style="background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.8rem;">Sin imagen</div>'}
+                        ${product.image ? `<img src="${product.image}" alt="${productName}" class="cart-item-image" loading="lazy">` : '<div class="cart-item-image" style="background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.8rem;">Sin imagen</div>'}
                         <div class="cart-item-info">
-                            <div class="cart-item-name">${product.name}</div>
+                            <div class="cart-item-name">${productName}</div>
                             <div class="cart-item-details">
                                 <span>${item.quantity} × ${formatPrice(unitPrice)}</span>
                                 <span><strong>${formatPrice(itemTotal)}</strong></span>
                             </div>
-                            <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" aria-label="Eliminar ${product.name}">🗑️ Eliminar</button>
+                            <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" aria-label="Eliminar ${productName}">🗑️ Eliminar</button>
                         </div>
                     </div>
                 `;
             }).join('');
 
             const shipping = calculateShipping(totalQuantity);
-            const total = subtotal + shipping;
+            const total = subtotal;
 
             document.getElementById('subtotal').textContent = formatPrice(subtotal);
-            document.getElementById('shipping').textContent = formatPrice(shipping);
+            document.getElementById('shipping').textContent = formatPendingCost(shipping);
             document.getElementById('total').textContent = formatPrice(total);
 
             cartSummaryEl.style.display = 'block';
@@ -1962,6 +1903,13 @@
         // Cambiar de paso
         function goToStep(step) {
             vibrate(10);
+            normalizeCart();
+
+            if (step > 1 && !hasCartItems()) {
+                alert('⚠️ Tu carrito está vacío. Agrega productos primero.');
+                step = 1;
+            }
+
             document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
             document.getElementById(`step${step}`).classList.add('active');
             currentStep = step;
@@ -1972,21 +1920,22 @@
             }
 
             // Actualizar visibilidad del botón flotante
-            const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalQuantity = getCartTotalQuantity();
             if (totalQuantity > 0) {
                 const subtotal = cart.reduce((sum, item) => {
                     const product = products.find(p => p.id === item.id);
+                    if (!product) return sum;
                     return sum + (calculatePrice(product, item.quantity, totalQuantity) * item.quantity);
                 }, 0);
                 const shipping = calculateShipping(totalQuantity);
-                const total = subtotal + shipping;
+                const total = subtotal;
                 updateFloatingCartButton(totalQuantity, total);
             }
         }
 
         // Ir al carrito (función especial para el botón flotante)
         function goToCart() {
-            if (cart.length === 0) {
+            if (!hasCartItems()) {
                 alert('⚠️ Tu carrito está vacío. Agrega productos primero.');
                 return;
             }
@@ -2019,6 +1968,14 @@
         // Generar cotización
         function generateQuote() {
             vibrate(10);
+            normalizeCart();
+
+            if (!hasCartItems()) {
+                alert('⚠️ Tu carrito está vacío. Agrega productos primero.');
+                goToStep(1);
+                return;
+            }
+
             const name = document.getElementById('customerName').value.trim();
             const phone = document.getElementById('customerPhone').value.trim();
             const street = document.getElementById('customerStreet').value.trim();
@@ -2060,35 +2017,48 @@
             document.getElementById('quoteDate').textContent = `Fecha: ${dateStr}`;
 
             // Datos del cliente
+            const safeName = escapeHTML(name);
+            const safePhone = escapeHTML(phone);
+            const safeStreet = escapeHTML(street);
+            const safeColonia = escapeHTML(colonia);
+            const safeCp = escapeHTML(cp);
+            const safeCity = escapeHTML(city);
+            const safeState = escapeHTML(state);
+            const safeReferences = escapeHTML(references);
+
             let customerInfo = `
                 <h3>👤 Datos del Cliente</h3>
-                <p><strong>Nombre:</strong> ${name}</p>
-                <p><strong>Teléfono:</strong> ${phone}</p>
+                <p><strong>Nombre:</strong> ${safeName}</p>
+                <p><strong>Teléfono:</strong> ${safePhone}</p>
                 <p style="margin-top: 15px;"><strong>📍 Dirección de Envío:</strong></p>
-                <p style="margin-left: 10px;">${street}</p>
-                <p style="margin-left: 10px;">Col. ${colonia}</p>
-                <p style="margin-left: 10px;">C.P. ${cp}, ${city}, ${state}</p>
+                <p style="margin-left: 10px;">${safeStreet}</p>
+                <p style="margin-left: 10px;">Col. ${safeColonia}</p>
+                <p style="margin-left: 10px;">C.P. ${safeCp}, ${safeCity}, ${safeState}</p>
             `;
             if (references) {
-                customerInfo += `<p style="margin-left: 10px;"><em>Ref: ${references}</em></p>`;
+                customerInfo += `<p style="margin-left: 10px;"><em>Ref: ${safeReferences}</em></p>`;
             }
             document.getElementById('quoteCustomer').innerHTML = customerInfo;
 
             // Tabla de productos
-            const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalQuantity = getCartTotalQuantity();
             let quoteSubtotal = 0;
 
             const quoteItemsHTML = cart.map(item => {
                 const product = products.find(p => p.id === item.id);
+                if (!product) return '';
+
+                item.quantity = normalizeQuantity(item.quantity);
                 const unitPrice = calculatePrice(product, item.quantity, totalQuantity);
                 const itemTotal = unitPrice * item.quantity;
                 quoteSubtotal += itemTotal;
+                const productName = escapeHTML(product.name);
 
                 return `
                     <tr>
                         <td>
-                            ${product.image ? `<img src="${product.image}" alt="${product.name}" loading="lazy">` : ''}
-                            <span>${product.name}</span>
+                            ${product.image ? `<img src="${product.image}" alt="${productName}" loading="eager" crossorigin="anonymous">` : ''}
+                            <span>${productName}</span>
                         </td>
                         <td>${item.quantity}</td>
                         <td>${formatPrice(unitPrice)}</td>
@@ -2100,17 +2070,17 @@
             document.getElementById('quoteItems').innerHTML = quoteItemsHTML;
 
             const shipping = calculateShipping(totalQuantity);
-            const total = quoteSubtotal + shipping;
+            const total = quoteSubtotal;
 
             document.getElementById('quoteSubtotal').textContent = formatPrice(quoteSubtotal);
-            document.getElementById('quoteShipping').textContent = formatPrice(shipping);
+            document.getElementById('quoteShipping').textContent = formatPendingCost(shipping);
             document.getElementById('quoteTotal').textContent = formatPrice(total);
 
             goToStep(4);
         }
 
         // Descargar imagen con alta definición
-        function downloadQuoteImage(triggerEvent = null, { silent = false } = {}) {
+        async function downloadQuoteImage(triggerEvent = null, { silent = false } = {}) {
             if (!silent) {
                 vibrate(20);
             }
@@ -2139,6 +2109,18 @@
                 return Promise.reject(new Error('No se encontró el área de cotización'));
             }
 
+            if (typeof html2canvas !== 'function') {
+                if (btn) {
+                    btn.innerHTML = '❌ Error. Reintentar';
+                    setTimeout(() => {
+                        btn.innerHTML = btn.dataset.originalLabel || originalLabel || '💾 Guardar Imagen';
+                        btn.disabled = false;
+                    }, 2000);
+                }
+                document.body.classList.remove('downloading');
+                return Promise.reject(new Error('No se pudo cargar el generador de imagen'));
+            }
+
             const pixelRatio = window.devicePixelRatio || 1;
             const captureScale = Math.min(3, Math.max(2, pixelRatio * 1.35));
 
@@ -2162,16 +2144,21 @@
                 return formatForFile(dateLabel, new Date().toISOString().split('T')[0]);
             };
 
-            return html2canvas(quotePrintArea, {
-                scale: captureScale,
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#ffffff',
-                scrollX: -window.scrollX,
-                scrollY: -window.scrollY,
-                windowWidth: quotePrintArea.scrollWidth,
-                windowHeight: quotePrintArea.scrollHeight
-            }).then(canvas => {
+            try {
+                await waitForQuoteAssets(quotePrintArea);
+
+                const canvas = await html2canvas(quotePrintArea, {
+                    scale: captureScale,
+                    useCORS: true,
+                    allowTaint: false,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    scrollX: -window.scrollX,
+                    scrollY: -window.scrollY,
+                    windowWidth: quotePrintArea.scrollWidth,
+                    windowHeight: quotePrintArea.scrollHeight
+                });
+
                 const imgData = canvas.toDataURL('image/jpeg', 0.95);
                 const customerName = formatForFile(localStorage.getItem('customerName'), 'cliente');
                 const quoteDate = getFileDate();
@@ -2180,7 +2167,9 @@
                 const link = document.createElement('a');
                 link.download = fileName;
                 link.href = imgData;
+                document.body.appendChild(link);
                 link.click();
+                link.remove();
 
                 if (btn) {
                     btn.innerHTML = '✅ Imagen Guardada';
@@ -2191,7 +2180,7 @@
                 }
 
                 return canvas;
-            }).catch(error => {
+            } catch (error) {
                 if (!silent) {
                     console.error('Error al generar imagen:', error);
                 }
@@ -2205,9 +2194,9 @@
                 }
 
                 throw error;
-            }).finally(() => {
+            } finally {
                 document.body.classList.remove('downloading');
-            });
+            }
         }
 
         function resetQuote() {
@@ -2220,20 +2209,28 @@
         // Enviar WhatsApp
         function sendWhatsApp() {
             vibrate(20);
+            normalizeCart();
+
+            if (!hasCartItems()) {
+                alert('⚠️ Tu carrito está vacío. Agrega productos primero.');
+                goToStep(1);
+                return;
+            }
+
             const name = localStorage.getItem('customerName') || 'Cliente';
-            const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalQuantity = getCartTotalQuantity();
             
-            const totalQuantityFinal = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalQuantityFinal = getCartTotalQuantity();
             let quoteSubtotal = 0;
             cart.forEach(item => {
                 const product = products.find(p => p.id === item.id);
+                if (!product) return;
                 const unitPrice = calculatePrice(product, item.quantity, totalQuantityFinal);
                 quoteSubtotal += unitPrice * item.quantity;
             });
-            const shipping = calculateShipping(totalQuantityFinal);
-            const totalAmount = quoteSubtotal + shipping;
+            const totalAmount = quoteSubtotal;
 
-            const message = `Hola Rita Valencia, soy ${name}. Estoy interesado/a en realizar un pedido de ${totalQuantity} productos por un total de ${formatPrice(totalAmount)}. Por favor revisa mi cotización adjunta y confírmame si está disponible. Gracias.`;
+            const message = `Hola Rita Valencia, soy ${name}. Estoy interesado/a en realizar un pedido de ${totalQuantity} productos por ${formatPrice(totalAmount)} en productos. Por favor revisa mi cotización adjunta y confírmame envío, seguro y disponibilidad. Gracias.`;
             
             // Descargar primero
             downloadQuoteImage(null, { silent: true })
@@ -2266,96 +2263,6 @@
                 e.preventDefault();
                 deferredPrompt = e;
             });
-        });
-
-        // Catalog Carousel Functions
-        function scrollCatalogCarousel(direction) {
-            const carousel = document.getElementById('catalogCarousel');
-            const itemWidth = carousel.clientWidth;
-            const scrollAmount = itemWidth * direction;
-            
-            carousel.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-            
-            setTimeout(updateCatalogCounter, 300);
-        }
-
-        function updateCatalogCounter() {
-            const carousel = document.getElementById('catalogCarousel');
-            const items = carousel.querySelectorAll('.catalog-carousel-item');
-            const scrollLeft = carousel.scrollLeft;
-            const itemWidth = carousel.clientWidth;
-            const currentIndex = Math.round(scrollLeft / itemWidth);
-            const counter = document.getElementById('catalogCounter');
-            
-            if (counter && items.length > 0) {
-                const pageNumber = Math.min(currentIndex + 1, items.length);
-                counter.textContent = `${pageNumber} / ${items.length}`;
-            }
-
-            // Update nav buttons
-            const prevBtn = document.querySelector('.catalog-carousel-nav.prev');
-            const nextBtn = document.querySelector('.catalog-carousel-nav.next');
-            
-            if (prevBtn && nextBtn) {
-                prevBtn.disabled = currentIndex === 0;
-                nextBtn.disabled = currentIndex >= items.length - 1;
-            }
-        }
-
-        // Initialize carousel
-        document.addEventListener('DOMContentLoaded', () => {
-            const carousel = document.getElementById('catalogCarousel');
-            if (carousel) {
-                // Update counter on scroll
-                carousel.addEventListener('scroll', updateCatalogCounter);
-                
-                // Touch/swipe support
-                let isDown = false;
-                let startX;
-                let scrollLeft;
-
-                carousel.addEventListener('mousedown', (e) => {
-                    isDown = true;
-                    carousel.style.cursor = 'grabbing';
-                    startX = e.pageX - carousel.offsetLeft;
-                    scrollLeft = carousel.scrollLeft;
-                });
-
-                carousel.addEventListener('mouseleave', () => {
-                    isDown = false;
-                    carousel.style.cursor = 'grab';
-                });
-
-                carousel.addEventListener('mouseup', () => {
-                    isDown = false;
-                    carousel.style.cursor = 'grab';
-                });
-
-                carousel.addEventListener('mousemove', (e) => {
-                    if (!isDown) return;
-                    e.preventDefault();
-                    const x = e.pageX - carousel.offsetLeft;
-                    const walk = (x - startX) * 2;
-                    carousel.scrollLeft = scrollLeft - walk;
-                });
-
-                // Keyboard navigation
-                carousel.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowLeft') {
-                        e.preventDefault();
-                        scrollCatalogCarousel(-1);
-                    } else if (e.key === 'ArrowRight') {
-                        e.preventDefault();
-                        scrollCatalogCarousel(1);
-                    }
-                });
-
-                // Initial counter update
-                updateCatalogCounter();
-            }
         });
 
         // Service Worker registration
