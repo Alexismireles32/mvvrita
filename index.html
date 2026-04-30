@@ -1471,7 +1471,7 @@
                         <span class="button-instruction">Paso 1: descarga la cotización</span>
                     </div>
                     <div class="quote-action">
-                        <button class="btn-whatsapp" onclick="sendWhatsApp()" aria-label="Enviar por WhatsApp">
+                        <button class="btn-whatsapp" onclick="sendWhatsApp(event)" aria-label="Enviar por WhatsApp">
                             📱 Enviar WhatsApp
                         </button>
                         <span class="button-instruction">Paso 2: envía a Rita Valencia</span>
@@ -1533,6 +1533,7 @@
 
     <script>
         const PRICE_RULE_SOURCE = 'preciosnew.pdf';
+        const RITA_WHATSAPP_PHONE = '526312982043';
         const PRODUCT_ROWS = [
             ['FAT BLAZER', 850, 490, 460, 430, 390, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761578536/fatblazer_vw1fks.png'],
             ['DUO 60 FUSION XTREME', 980, 520, 470, 450, 420, 'https://res.cloudinary.com/dsulhqvza/image/upload/f_auto,q_auto,w_1200/v1761575568/Duo-60fusion_xhsjhs.png'],
@@ -1781,6 +1782,41 @@
             });
         }
 
+        function withTimeout(promise, timeoutMs, errorMessage) {
+            let timeoutId;
+            const timeout = new Promise((_, reject) => {
+                timeoutId = setTimeout(() => reject(new Error(errorMessage)), timeoutMs);
+            });
+
+            return Promise.race([promise, timeout]).finally(() => clearTimeout(timeoutId));
+        }
+
+        function restoreButton(btn, originalLabel, delay = 0) {
+            if (!btn) return;
+
+            const restore = () => {
+                btn.innerHTML = btn.dataset.originalLabel || originalLabel;
+                btn.disabled = false;
+            };
+
+            if (delay > 0) {
+                setTimeout(restore, delay);
+            } else {
+                restore();
+            }
+        }
+
+        function setDownloadError(message) {
+            const resultEl = document.getElementById('downloadResult');
+            if (!resultEl) return;
+
+            resultEl.classList.add('active');
+            resultEl.innerHTML = `
+                <strong>No se pudo guardar la imagen.</strong>
+                ${escapeHTML(message)}
+            `;
+        }
+
         function setDownloadResult(fileName, imageUrl) {
             const resultEl = document.getElementById('downloadResult');
             if (!resultEl) return;
@@ -1835,6 +1871,7 @@
 
         window.MVV_PRODUCTS = products;
         window.MVV_PRICE_RULE_SOURCE = PRICE_RULE_SOURCE;
+        window.MVV_WHATSAPP_PHONE = RITA_WHATSAPP_PHONE;
         window.MVV_CALCULATE_PRICE = calculatePrice;
         window.MVV_CALCULATE_SHIPPING = calculateShipping;
 
@@ -2206,10 +2243,7 @@
             if (!quotePrintArea) {
                 if (btn) {
                     btn.innerHTML = '❌ Error. Reintentar';
-                    setTimeout(() => {
-                        btn.innerHTML = btn.dataset.originalLabel || originalLabel || '💾 Guardar Imagen';
-                        btn.disabled = false;
-                    }, 2000);
+                    restoreButton(btn, originalLabel || '💾 Guardar Imagen', 2000);
                 }
                 document.body.classList.remove('downloading');
                 return Promise.reject(new Error('No se encontró el área de cotización'));
@@ -2218,10 +2252,7 @@
             if (typeof html2canvas !== 'function') {
                 if (btn) {
                     btn.innerHTML = '❌ Error. Reintentar';
-                    setTimeout(() => {
-                        btn.innerHTML = btn.dataset.originalLabel || originalLabel || '💾 Guardar Imagen';
-                        btn.disabled = false;
-                    }, 2000);
+                    restoreButton(btn, originalLabel || '💾 Guardar Imagen', 2000);
                 }
                 document.body.classList.remove('downloading');
                 return Promise.reject(new Error('No se pudo cargar el generador de imagen'));
@@ -2251,24 +2282,36 @@
             };
 
             try {
-                await waitForQuoteAssets(quotePrintArea);
+                await withTimeout(
+                    waitForQuoteAssets(quotePrintArea),
+                    12000,
+                    'Las imágenes tardaron demasiado en cargar. Intenta de nuevo.'
+                );
 
-                const canvas = await html2canvas(quotePrintArea, {
-                    scale: captureScale,
-                    useCORS: true,
-                    allowTaint: false,
-                    logging: false,
-                    backgroundColor: '#ffffff',
-                    scrollX: -window.scrollX,
-                    scrollY: -window.scrollY,
-                    windowWidth: quotePrintArea.scrollWidth,
-                    windowHeight: quotePrintArea.scrollHeight
-                });
+                const canvas = await withTimeout(
+                    html2canvas(quotePrintArea, {
+                        scale: captureScale,
+                        useCORS: true,
+                        allowTaint: false,
+                        logging: false,
+                        backgroundColor: '#ffffff',
+                        scrollX: -window.scrollX,
+                        scrollY: -window.scrollY,
+                        windowWidth: quotePrintArea.scrollWidth,
+                        windowHeight: quotePrintArea.scrollHeight
+                    }),
+                    20000,
+                    'La imagen tardó demasiado en generarse. Intenta de nuevo.'
+                );
 
                 const customerName = formatForFile(localStorage.getItem('customerName'), 'cliente');
                 const quoteDate = getFileDate();
                 const fileName = `cotizacion_${customerName}_${quoteDate}.jpeg`;
-                const blob = await canvasToBlob(canvas, 'image/jpeg', 0.95);
+                const blob = await withTimeout(
+                    canvasToBlob(canvas, 'image/jpeg', 0.95),
+                    8000,
+                    'No se pudo preparar el archivo JPEG. Intenta de nuevo.'
+                );
                 const quoteFile = blob && typeof File === 'function'
                     ? new File([blob], fileName, { type: 'image/jpeg' })
                     : null;
@@ -2299,24 +2342,19 @@
 
                 if (btn) {
                     btn.innerHTML = '✅ Imagen Lista';
-                    setTimeout(() => {
-                        btn.innerHTML = btn.dataset.originalLabel || originalLabel || '💾 Guardar Imagen';
-                        btn.disabled = false;
-                    }, 2000);
+                    restoreButton(btn, originalLabel || '💾 Guardar Imagen', 2000);
                 }
 
                 return canvas;
             } catch (error) {
                 if (!silent) {
                     console.error('Error al generar imagen:', error);
+                    setDownloadError(error?.message || 'Intenta generar la imagen nuevamente.');
                 }
 
                 if (btn) {
                     btn.innerHTML = '❌ Error. Reintentar';
-                    setTimeout(() => {
-                        btn.innerHTML = btn.dataset.originalLabel || originalLabel || '💾 Guardar Imagen';
-                        btn.disabled = false;
-                    }, 2000);
+                    restoreButton(btn, originalLabel || '💾 Guardar Imagen', 2000);
                 }
 
                 throw error;
@@ -2333,8 +2371,30 @@
             goToStep(1);
         }
 
+        function buildWhatsAppMessage() {
+            const name = localStorage.getItem('customerName') || 'Cliente';
+            const totalQuantity = getCartTotalQuantity();
+            let quoteSubtotal = 0;
+
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (!product) return;
+                const unitPrice = calculatePrice(product, item.quantity, totalQuantity);
+                quoteSubtotal += unitPrice * item.quantity;
+            });
+
+            return `Hola Rita Valencia, soy ${name}. Estoy interesado/a en realizar un pedido de ${totalQuantity} productos por ${formatPrice(quoteSubtotal)} en productos. Por favor revisa mi cotización adjunta y confírmame envío, seguro y disponibilidad. Gracias.`;
+        }
+
+        function buildWhatsAppUrl(message) {
+            return `https://wa.me/${RITA_WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
+        }
+
+        window.MVV_BUILD_WHATSAPP_MESSAGE = buildWhatsAppMessage;
+        window.MVV_BUILD_WHATSAPP_URL = buildWhatsAppUrl;
+
         // Enviar WhatsApp
-        function sendWhatsApp() {
+        async function sendWhatsApp(triggerEvent = null) {
             vibrate(20);
             normalizeCart();
 
@@ -2344,32 +2404,44 @@
                 return;
             }
 
-            const name = localStorage.getItem('customerName') || 'Cliente';
-            const totalQuantity = getCartTotalQuantity();
-            
-            const totalQuantityFinal = getCartTotalQuantity();
-            let quoteSubtotal = 0;
-            cart.forEach(item => {
-                const product = products.find(p => p.id === item.id);
-                if (!product) return;
-                const unitPrice = calculatePrice(product, item.quantity, totalQuantityFinal);
-                quoteSubtotal += unitPrice * item.quantity;
-            });
-            const totalAmount = quoteSubtotal;
+            const btn = triggerEvent?.currentTarget || triggerEvent?.target || null;
+            const originalLabel = btn ? (btn.dataset.originalLabel || btn.innerHTML) : null;
+            if (btn) {
+                btn.dataset.originalLabel = originalLabel;
+                btn.innerHTML = '⏳ Guardando imagen…';
+                btn.disabled = true;
+            }
 
-            const message = `Hola Rita Valencia, soy ${name}. Estoy interesado/a en realizar un pedido de ${totalQuantity} productos por ${formatPrice(totalAmount)} en productos. Por favor revisa mi cotización adjunta y confírmame envío, seguro y disponibilidad. Gracias.`;
-            
-            // Descargar primero
-            downloadQuoteImage(null, { silent: true })
-                .catch(() => {
-                    alert('⚠️ No se pudo generar la imagen de la cotización. Por favor intenta guardarla manualmente antes de enviar por WhatsApp.');
-                })
-                .finally(() => {
-                    setTimeout(() => {
-                        const whatsappUrl = `https://wa.me/+526312982043?text=${encodeURIComponent(message)}`;
-                        window.open(whatsappUrl, '_blank');
-                    }, 500);
-                });
+            const message = buildWhatsAppMessage();
+            const whatsappUrl = buildWhatsAppUrl(message);
+            window.MVV_LAST_WHATSAPP_URL = whatsappUrl;
+
+            const whatsappWindow = window.open('', '_blank');
+            if (whatsappWindow) {
+                whatsappWindow.document.write('<!doctype html><title>WhatsApp</title><p style="font-family: system-ui; padding: 20px;">Preparando la cotización y abriendo WhatsApp...</p>');
+                whatsappWindow.document.close();
+            }
+
+            try {
+                await withTimeout(
+                    downloadQuoteImage(null, { silent: true }),
+                    30000,
+                    'La imagen tardó demasiado en guardarse.'
+                );
+            } catch (error) {
+                alert('⚠️ No se pudo guardar la imagen automáticamente. WhatsApp se abrirá de todos modos; usa Guardar Imagen para intentarlo otra vez.');
+            } finally {
+                if (whatsappWindow && !whatsappWindow.closed) {
+                    whatsappWindow.location.href = whatsappUrl;
+                } else {
+                    window.location.href = whatsappUrl;
+                }
+
+                if (btn) {
+                    btn.innerHTML = '✅ WhatsApp listo';
+                    restoreButton(btn, originalLabel || '📱 Enviar WhatsApp', 2000);
+                }
+            }
         }
 
         // Búsqueda con debounce

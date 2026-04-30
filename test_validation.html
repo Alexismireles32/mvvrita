@@ -123,6 +123,127 @@
             runAssertion(state, products.every(product => ['price', 'price10', 'price30', 'price50', 'price100'].every(key => Number.isFinite(product[key]))), 'Todos los productos tienen precios numéricos en los 5 niveles');
             runAssertion(state, products.every(product => !/[a-z]/.test(product.name)), 'Todos los nombres visibles están normalizados en mayúsculas');
             runAssertion(state, products.every(product => !/(THy|ALPA|SAHPE|ZISE|NIGT)/.test(product.name)), 'No quedan typos conocidos en nombres de productos');
+
+            const officialPriceRows = [
+                ['FAT BLAZER', 850, 490, 460, 430, 390],
+                ['DUO 60 FUSION XTREME', 980, 520, 470, 450, 420],
+                ['DUO 30 FUSION XTREME', 700, 400, 370, 340, 300],
+                ['SOS BURN', 700, 400, 370, 340, 300],
+                ['SOS BURN SENSITIVE', 700, 400, 370, 340, 300],
+                ['THYROIDE SUPPORT', 700, 400, 370, 340, 300],
+                ['LIPO HD 360', 700, 400, 370, 340, 300],
+                ['SLIM U', 700, 400, 370, 340, 300],
+                ['ALPHA GLOW', 700, 400, 370, 340, 300],
+                ['BIKINI TRIM FAST AMARILLA', 700, 400, 370, 340, 300],
+                ['BIKINI STRONG ROSA', 700, 400, 370, 340, 300],
+                ['BIKINI TRIM DORADA', 700, 400, 370, 340, 300],
+                ['TE ENERGOBOLIZER INFUSION', 400, 235, 235, 235, 235],
+                ['LIDA DAIDAIHUA BOOSTER', 700, 400, 370, 340, 300],
+                ['LIDA BOOSTER ROSA', 700, 400, 370, 340, 300],
+                ['BALANCE PESO IDEAL', 700, 380, 350, 320, 280],
+                ['LIDA DAIDAIHUA PLUS', 700, 380, 350, 320, 280],
+                ['LIDA DAIDAIHUA CAJA', 700, 380, 350, 320, 280],
+                ['BODY SHAPE', 650, 380, 350, 320, 280],
+                ['SLIMER XTREME', 650, 380, 350, 320, 280],
+                ['SLIM 24', 650, 380, 350, 320, 280],
+                ['EXTRACTO CBD', 450, 185, 165, 150, 130],
+                ['CM PUSH UP MEN', 500, 250, 220, 195, 175],
+                ['MENS EXOTIC', 500, 250, 220, 195, 175],
+                ['PRIME ROSE', 500, 250, 220, 195, 175],
+                ['H - FLEX', 400, 185, 165, 150, 135],
+                ['E DETOX PLUS', 500, 240, 220, 195, 175],
+                ['30 DAY DETOX', 480, 240, 220, 195, 175],
+                ['CHUPA PANZA CAPS.', 500, 240, 220, 195, 175],
+                ['SOS BURN CLEAN', 480, 240, 220, 195, 175],
+                ['15 DAY DETOX TEA', 250, 125, 110, 90, 75],
+                ['3 DAY RESET', 250, 125, 110, 90, 75],
+                ['COLAGENO & BIOTINA CPS', 450, 195, 175, 175, 175],
+                ['MAXI FIBRA', 280, 175, 150, 135, 135],
+                ['MACA PREMIUM MUJER', 400, 150, 130, 120, 110],
+                ['MACA PREMIUM HOMBRE', 400, 150, 130, 120, 110],
+                ['MEIZITANG GEL', 550, 350, 300, 280, 280],
+                ['COLIT 6', 400, 175, 150, 135, 125],
+                ['ASHWAGANDHA', 450, 175, 150, 135, 125],
+                ['SERENITY', 400, 175, 150, 135, 125],
+                ['HIGA2', 500, 250, 235, 220, 200],
+                ['MAGIC BOOTY UP', 450, 185, 165, 150, 135],
+                ['SLIM COFFELAGENO 100 MG', 450, 195, 195, 175, 150],
+                ['SLIM COFFE 100 MG', 450, 195, 195, 175, 150],
+                ['INOSITOL', 400, 185, 165, 150, 135],
+                ['ENERGY UP', 300, 175, 150, 130, 110],
+                ['SLIM SHAKE MACA', 380, 175, 150, 130, 125],
+                ['LIDA SHAKE MALTEADA', 380, 195, 175, 150, 150],
+                ['TE BODY SHAPE', 280, 135, 110, 90, 75],
+                ['BLUEBERRY COLAGENO POLVO', 400, 135, 125, 100, 100],
+                ['BIKINI PARCHES', 200, 125, 100, 90, 85],
+                ['LIDA PARCHES AZUL Y ROSA', 200, 125, 100, 90, 85],
+                ['LIDA DAIDAIHUA SLIMMING TEA', 200, 125, 100, 90, 85],
+                ['BERBERINA', 400, 185, 165, 150, 125],
+                ['VENESSE', 400, 185, 165, 150, 135],
+                ['JUGO VERDE 250 G', 350, 125, 125, 105, 90],
+                ['ENZIMAX', 350, 175, 175, 150, 140],
+                ['MG5 MAGNESIOS', 350, 185, 165, 150, 125],
+                ['FLORYVA VERDE', 400, 185, 165, 150, 135],
+                ['FLORYVA ROSA PROBIOTICO', 400, 185, 165, 150, 135],
+                ['PROTEIN BODY', 400, 230, 200, 185, 185],
+                ['GEL TONIC', 250, 125, 115, 95, 75],
+                ['GEL LIDA AZUL Y ROSA', 200, 100, 100, 85, 85],
+                ['GEL VENNESE', 250, 125, 115, 85, 85],
+                ['GOTAS E DETOX', 350, 150, 125, 100, 85],
+                ['KETO CAFE', 400, 200, 185, 150, 150],
+                ['KETO BURN', 1000, 480, 480, 450, 420],
+                ['KETO BURN GOTAS 60ML', 450, 185, 165, 140, 120],
+                ['KETO DETOX', 600, 320, 300, 280, 280],
+                ['APPLE CIDER', 300, 150, 125, 125, 100],
+                ['APPLE CIDER QUEMADOR', 600, 350, 320, 300, 280],
+                ['MAXI FIT 250 G', 250, 125, 100, 90, 85],
+                ['DAILY WORK', 650, 380, 350, 320, 300],
+                ['DAILY URBAN', 650, 380, 350, 320, 300],
+                ['DAILY 7 LIKE FACTOR', 650, 380, 350, 320, 300],
+                ['DAILY MEN FAT BURNER', 650, 380, 350, 320, 300],
+                ['DAILY EQUILIBRUM', 650, 350, 320, 300, 280],
+                ['DAILY BYE BELLY ACELERATOR', 450, 250, 220, 220, 200],
+                ['DAILY DETOX & GLOW', 450, 250, 220, 220, 200],
+                ['DAILY TE', 300, 220, 220, 220, 200],
+                ['BEAUTY 911 T', 700, 410, 380, 365, 350],
+                ['INTENSE DETOX TUMMY TUCK', 480, 270, 260, 250, 240],
+                ['BYPASS SELECT DORADA', 840, 515, 495, 475, 455],
+                ['BYPASS DELUXE BLANCA', 700, 490, 470, 450, 430],
+                ['BYPASS PREMIUM VERDE', 690, 440, 420, 399, 399],
+                ['BYPASS 3 XL DOBLE POTENCIA', 950, 560, 540, 515, 500],
+                ['BYPASS 3 XL NOCTURNO', 530, 350, 330, 320, 310],
+                ['SBELTA 24/7', 740, 430, 410, 395, 380],
+                ['LIDA GLAM ROSA', 800, 480, 465, 450, 430],
+                ['MACA FEM', 530, 315, 300, 285, 430],
+                ['MACA FEM PLUS', 735, 460, 440, 430, 415],
+                ['PIÑA INTENSE', 370, 230, 210, 190, 180],
+                ['DESPARAZATE', 320, 220, 190, 170, 160],
+                ['LIDA THERMO DETOX ROJA', 530, 340, 330, 315, 300],
+                ['TE DESPANZATE', 420, 260, 240, 220, 210],
+                ['BYPASS ZERO', 530, 320, 300, 280, 265],
+                ['LIPO TALLA BLUE SIZE', 850, 530, 500, 450, 420],
+                ['LIPO TALLA HIPERTENSOS', 850, 530, 500, 450, 420],
+                ['LIPO TALLA LACTANCIA', 750, 420, 380, 350, 320],
+                ['LIPO CHUPAPANZA', 650, 350, 330, 290, 240],
+                ['LIPO DETOX', 650, 350, 330, 290, 240],
+                ['LIPO PUSH UP', 450, 300, 270, 230, 190],
+                ['LIPO BUENAS NOCHES', 600, 190, 150, 130, 130],
+                ['LIPO TALLA NIGHT ROSA', 650, 350, 320, 280, 250],
+                ['LIPO SIRENA', 1000, 650, 625, 580, 550],
+                ['LIPO TALLA CAFE', 500, 250, 250, 250, 200],
+                ['LIPO SHAKE MALTEADA', 500, 330, 310, 280, 250],
+                ['LIPO BARBIE', 850, 650, 550, 500, 450]
+            ];
+            const priceMismatches = officialPriceRows.flatMap(([name, price, price10, price30, price50, price100]) => {
+                const product = products.find(item => item.name === name);
+                if (!product) return [`${name}: no existe en el catálogo`];
+                const expected = { price, price10, price30, price50, price100 };
+                return Object.entries(expected)
+                    .filter(([key, value]) => product[key] !== value)
+                    .map(([key, value]) => `${name} ${key}: ${product[key]} != ${value}`);
+            });
+            runAssertion(state, priceMismatches.length === 0, `Los 108 productos coinciden con los precios oficiales por cantidad${priceMismatches.length ? ': ' + priceMismatches.slice(0, 5).join('; ') : ''}`);
+
             runAssertion(state, products.find(product => product.name === 'LIDA DAIDAIHUA BOOSTER')?.image?.includes('Lidabooster'), 'La imagen Lida Booster está asignada a LIDA DAIDAIHUA BOOSTER');
             runAssertion(state, products.find(product => product.name === 'LIDA BOOSTER ROSA')?.image?.includes('lida-booster-rosa'), 'LIDA BOOSTER ROSA usa la imagen rosa correcta');
             runAssertion(state, !products.find(product => product.name === 'FLORYVA VERDE')?.image && !products.find(product => product.name === 'FLORYVA ROSA PROBIOTICO')?.image, 'Las variantes FLORYVA no usan la imagen Candiclear');
@@ -149,7 +270,9 @@
             const alerts = [];
             const originalAlert = appWindow.alert;
             const originalClick = appWindow.HTMLAnchorElement.prototype.click;
+            const originalOpen = appWindow.open;
             let downloadMeta = null;
+            const openedWindows = [];
 
             appWindow.alert = message => alerts.push(message);
             appWindow.HTMLAnchorElement.prototype.click = function() {
@@ -159,6 +282,30 @@
                     hrefLength: this.href.length,
                     inDom: appDocument.body.contains(this)
                 };
+            };
+            appWindow.open = function(url, target) {
+                const openedWindow = { initialUrl: url, target, href: '' };
+                openedWindows.push(openedWindow);
+
+                const popup = {
+                    closed: false,
+                    document: {
+                        write() {},
+                        close() {}
+                    },
+                    location: {}
+                };
+
+                Object.defineProperty(popup.location, 'href', {
+                    get() {
+                        return openedWindow.href;
+                    },
+                    set(value) {
+                        openedWindow.href = value;
+                    }
+                });
+
+                return popup;
             };
 
             try {
@@ -214,11 +361,17 @@
                 runAssertion(state, downloadMeta?.download?.startsWith('cotizacion_cliente_prueba') && /^blob:|^data:image\/jpeg;base64,/.test(downloadMeta.hrefStart) && downloadMeta.inDom && appWindow.MVV_LAST_QUOTE_DOWNLOAD?.size > 100000, 'La descarga final genera un JPEG con nombre válido');
                 runAssertion(state, downloadResult?.classList.contains('active') && downloadResult.querySelectorAll('a').length === 2, 'La app deja enlaces visibles para descargar o abrir la imagen generada');
                 runAssertion(state, actionsStayVisible, 'Los botones de descarga y WhatsApp permanecen visibles mientras se genera la imagen');
+
+                await appWindow.sendWhatsApp({ currentTarget: appDocument.querySelector('.btn-whatsapp') });
+                const whatsappUrl = appWindow.MVV_LAST_WHATSAPP_URL || '';
+                runAssertion(state, whatsappUrl.startsWith('https://wa.me/526312982043?text='), 'WhatsApp usa el número mexicano correcto sin signo + en wa.me');
+                runAssertion(state, openedWindows.some(item => item.href === whatsappUrl), 'El botón de WhatsApp abre una conversación con texto precargado');
             } catch (error) {
                 runAssertion(state, false, `El flujo de cotización falló: ${error.message}`);
             } finally {
                 appWindow.alert = originalAlert;
                 appWindow.HTMLAnchorElement.prototype.click = originalClick;
+                appWindow.open = originalOpen;
             }
 
             if (state.passed === state.total) {
