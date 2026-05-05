@@ -1851,16 +1851,16 @@
                 && navigator.share
                 && navigator.canShare?.({ files: [window.MVV_LAST_QUOTE_FILE] });
             const shareButton = canShareFile
-                ? '<button type="button" onclick="shareLastQuoteImage()">Compartir / guardar</button>'
+                ? '<button type="button" class="download-action-share" onclick="shareLastQuoteImage()">📤 Compartir / guardar</button>'
                 : '';
 
             resultEl.classList.add('active');
             resultEl.innerHTML = `
-                <strong>Imagen lista.</strong> Si no se guardó automáticamente, usa uno de estos botones:
+                <strong>✅ Imagen lista.</strong> Si la descarga automática no funcionó en tu dispositivo, usa una de estas opciones:
                 <div class="download-result-actions">
-                    <a href="${imageUrl}" download="${escapeHTML(fileName)}">Descargar de nuevo</a>
-                    <a href="${imageUrl}" target="_blank" rel="noopener">Abrir imagen</a>
                     ${shareButton}
+                    <a href="${imageUrl}" download="${escapeHTML(fileName)}">💾 Descargar de nuevo</a>
+                    <a href="${imageUrl}" target="_blank" rel="noopener">🖼️ Abrir imagen</a>
                 </div>
             `;
         }
@@ -2366,6 +2366,15 @@
 
                 setDownloadResult(fileName, imageUrl);
 
+                // The auto-download via <a download>.click() is unreliable on
+                // mobile browsers (especially iOS Safari) and after async work,
+                // where the user-gesture context is lost. Scroll the fallback
+                // UI into view so the user always sees the manual save options.
+                if (!silent) {
+                    const resultEl = document.getElementById('downloadResult');
+                    resultEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
                 if (btn) {
                     btn.innerHTML = '✅ Imagen Lista';
                     restoreButton(btn, originalLabel || '💾 Guardar Imagen', 2000);
@@ -2435,41 +2444,49 @@
 
             const btn = triggerEvent?.currentTarget || triggerEvent?.target || null;
             const originalLabel = btn ? (btn.dataset.originalLabel || btn.innerHTML) : null;
-            if (btn) {
-                btn.dataset.originalLabel = originalLabel;
-                btn.innerHTML = '⏳ Guardando imagen…';
-                btn.disabled = true;
-            }
 
             const message = buildWhatsAppMessage();
             const whatsappUrl = buildWhatsAppUrl(message);
             window.MVV_LAST_WHATSAPP_URL = whatsappUrl;
 
-            const whatsappWindow = window.open('', '_blank');
-            if (whatsappWindow) {
-                whatsappWindow.document.write('<!doctype html><title>WhatsApp</title><p style="font-family: system-ui; padding: 20px;">Preparando la cotización y abriendo WhatsApp...</p>');
-                whatsappWindow.document.close();
+            // Open WhatsApp directly with the destination URL during the user gesture.
+            // The previous "open empty popup → redirect later" pattern was unreliable:
+            // some browsers block cross-origin redirects of about:blank popups, and
+            // users saw the placeholder text for 5–30s while the silent capture ran.
+            // (Note: avoid the 'noopener' feature here — it makes window.open return
+            // null even on success, defeating our popup-blocked detection below.)
+            const opened = window.open(whatsappUrl, '_blank');
+            if (!opened) {
+                window.location.href = whatsappUrl;
+                return;
             }
 
+            // After WhatsApp is open, save the image in the background so the user
+            // has it ready to attach. If it was already saved (Step 1), the existing
+            // file remains; this just refreshes it with the latest cart state.
+            if (btn) {
+                btn.dataset.originalLabel = originalLabel;
+                btn.innerHTML = '⏳ Guardando imagen…';
+                btn.disabled = true;
+            }
             try {
                 await withTimeout(
                     downloadQuoteImage(null, { silent: true }),
                     30000,
                     'La imagen tardó demasiado en guardarse.'
                 );
-            } catch (error) {
-                alert('⚠️ No se pudo guardar la imagen automáticamente. WhatsApp se abrirá de todos modos; usa Guardar Imagen para intentarlo otra vez.');
-            } finally {
-                if (whatsappWindow && !whatsappWindow.closed) {
-                    whatsappWindow.location.href = whatsappUrl;
-                } else {
-                    window.location.href = whatsappUrl;
-                }
-
                 if (btn) {
-                    btn.innerHTML = '✅ WhatsApp listo';
-                    restoreButton(btn, originalLabel || '📱 Enviar WhatsApp', 2000);
+                    btn.innerHTML = '✅ Imagen lista';
                 }
+            } catch (error) {
+                console.error('No se guardó la imagen automáticamente:', error);
+                setDownloadError('No se pudo guardar la imagen. Usa "Guardar Imagen" e intenta de nuevo.');
+                if (btn) {
+                    btn.innerHTML = '⚠️ Guarda la imagen manualmente';
+                }
+            }
+            if (btn) {
+                restoreButton(btn, originalLabel || '📱 Enviar WhatsApp', 2500);
             }
         }
 
