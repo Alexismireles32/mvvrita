@@ -1323,7 +1323,7 @@
 
             <div class="shipping-info">
                 <h3>🚚 Información importante sobre envíos:</h3>
-                <p>El envío y el seguro se cotizan por separado antes de confirmar el pedido.</p>
+                <p>El costo del envío varía según el tipo de producto y cantidad requerida. El monto mostrado en la cotización es una estimación y puede ajustarse al confirmar el pedido.</p>
                 <p>Una vez entregado el pedido a paquetería, cualquier situación se trata directamente con la paquetería.</p>
             </div>
 
@@ -1516,7 +1516,7 @@
                     </div>
 
                     <div class="quote-note">
-                        <strong>Nota:</strong> Esta cotización usa la lista oficial vigente Lista MVV Natural. El envío y seguro se cotizan por separado. Para confirmar su pedido, por favor envíe esta cotización a Rita Valencia vía WhatsApp al número +526312982043.
+                        <strong>Nota:</strong> Esta cotización usa la lista oficial vigente Lista MVV Natural. <strong>El costo del envío varía según el tipo de producto y cantidad requerida</strong>, por lo que el monto mostrado es estimado y puede ajustarse al confirmar el pedido. Para confirmar su pedido, por favor envíe esta cotización a Rita Valencia vía WhatsApp al número +526312982043.
                     </div>
                 </div>
 
@@ -1725,9 +1725,14 @@
             return product[getPriceTier(totalQuantity)];
         }
 
-        // El documento oficial no define una tarifa fija de envío.
+        // Tarifa de envío/seguro según el total de piezas del pedido.
+        // El costo final puede variar según el tipo de producto y cantidad requerida.
         function calculateShipping(totalQuantity) {
-            return null;
+            if (totalQuantity <= 0) return 0;
+            if (totalQuantity >= 70) return 350;
+            if (totalQuantity >= 40) return 285;
+            if (totalQuantity >= 30) return 225;
+            return 165;
         }
 
         let lastQuoteImageUrl = null;
@@ -1760,15 +1765,36 @@
             });
         }
 
+        function waitForNextPaint(timeoutMs = 300) {
+            return new Promise(resolve => {
+                let timeoutId;
+                let finished = false;
+
+                const finish = () => {
+                    if (finished) return;
+                    finished = true;
+                    clearTimeout(timeoutId);
+                    resolve();
+                };
+
+                timeoutId = setTimeout(finish, timeoutMs);
+                requestAnimationFrame(() => requestAnimationFrame(finish));
+            });
+        }
+
         async function waitForQuoteAssets(quotePrintArea) {
             if (document.fonts?.ready) {
-                await document.fonts.ready.catch(() => {});
+                await withTimeout(
+                    document.fonts.ready.catch(() => {}),
+                    3000,
+                    'Las fuentes tardaron demasiado en cargar.'
+                ).catch(() => {});
             }
 
             const images = Array.from(quotePrintArea.querySelectorAll('img'));
-            await Promise.all(images.map(waitForImageReady));
+            await Promise.allSettled(images.map(waitForImageReady));
 
-            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+            await waitForNextPaint();
         }
 
         function canvasToBlob(canvas, type = 'image/jpeg', quality = 0.95) {
@@ -2004,7 +2030,7 @@
             }).join('');
 
             const shipping = calculateShipping(totalQuantity);
-            const total = subtotal;
+            const total = subtotal + (shipping || 0);
 
             document.getElementById('subtotal').textContent = formatPrice(subtotal);
             document.getElementById('shipping').textContent = formatPendingCost(shipping);
@@ -2067,7 +2093,7 @@
                     return sum + (calculatePrice(product, item.quantity, totalQuantity) * item.quantity);
                 }, 0);
                 const shipping = calculateShipping(totalQuantity);
-                const total = subtotal;
+                const total = subtotal + (shipping || 0);
                 updateFloatingCartButton(totalQuantity, total);
             }
         }
@@ -2209,7 +2235,7 @@
             document.getElementById('quoteItems').innerHTML = quoteItemsHTML;
 
             const shipping = calculateShipping(totalQuantity);
-            const total = quoteSubtotal;
+            const total = quoteSubtotal + (shipping || 0);
 
             document.getElementById('quoteSubtotal').textContent = formatPrice(quoteSubtotal);
             document.getElementById('quoteShipping').textContent = formatPendingCost(shipping);
@@ -2284,7 +2310,7 @@
             try {
                 await withTimeout(
                     waitForQuoteAssets(quotePrintArea),
-                    12000,
+                    25000,
                     'Las imágenes tardaron demasiado en cargar. Intenta de nuevo.'
                 );
 
@@ -2383,7 +2409,10 @@
                 quoteSubtotal += unitPrice * item.quantity;
             });
 
-            return `Hola Rita Valencia, soy ${name}. Estoy interesado/a en realizar un pedido de ${totalQuantity} productos por ${formatPrice(quoteSubtotal)} en productos. Por favor revisa mi cotización adjunta y confírmame envío, seguro y disponibilidad. Gracias.`;
+            const shipping = calculateShipping(totalQuantity) || 0;
+            const total = quoteSubtotal + shipping;
+
+            return `Hola Rita Valencia, soy ${name}. Estoy interesado/a en realizar un pedido de ${totalQuantity} productos por un total estimado de ${formatPrice(total)} (incluye envío de ${formatPrice(shipping)}). Por favor revisa mi cotización adjunta y confírmame disponibilidad y monto final de envío. Gracias.`;
         }
 
         function buildWhatsAppUrl(message) {
