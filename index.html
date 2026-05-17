@@ -847,6 +847,22 @@
             text-decoration: none;
         }
 
+        .download-result .download-action-primary {
+            flex: 1 1 100%;
+            min-height: 52px;
+            padding: 14px 18px;
+            font-size: 1.05rem;
+            background: var(--gold);
+            box-shadow: 0 2px 8px rgba(184, 134, 11, 0.3);
+        }
+
+        .download-result .download-action-secondary {
+            background: transparent;
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
         #quotePrintArea {
             background: white;
             padding: 25px 20px;
@@ -1850,19 +1866,31 @@
             const canShareFile = window.MVV_LAST_QUOTE_FILE
                 && navigator.share
                 && navigator.canShare?.({ files: [window.MVV_LAST_QUOTE_FILE] });
-            const shareButton = canShareFile
-                ? '<button type="button" class="download-action-share" onclick="shareLastQuoteImage()">📤 Compartir / guardar</button>'
-                : '';
 
             resultEl.classList.add('active');
-            resultEl.innerHTML = `
-                <strong>✅ Imagen lista.</strong> Si la descarga automática no funcionó en tu dispositivo, usa una de estas opciones:
-                <div class="download-result-actions">
-                    ${shareButton}
-                    <a href="${imageUrl}" download="${escapeHTML(fileName)}">💾 Descargar de nuevo</a>
-                    <a href="${imageUrl}" target="_blank" rel="noopener">🖼️ Abrir imagen</a>
-                </div>
-            `;
+
+            if (canShareFile) {
+                // Share-first flow: navigator.share is the only API that can
+                // route the file to Photos/Gallery. The system share sheet
+                // shows "Guardar imagen" / "Save Image" → saves to Photos.
+                resultEl.innerHTML = `
+                    <strong>✅ Imagen lista.</strong> Toca el botón para guardarla en tu galería de fotos:
+                    <div class="download-result-actions">
+                        <button type="button" class="download-action-share download-action-primary" onclick="shareLastQuoteImage()">📷 Guardar en Galería</button>
+                        <a href="${imageUrl}" target="_blank" rel="noopener" class="download-action-secondary">🖼️ Abrir imagen</a>
+                    </div>
+                `;
+            } else {
+                // Desktop / non-share-capable browsers: keep the manual download
+                // links as the recovery path for the auto-download.
+                resultEl.innerHTML = `
+                    <strong>✅ Imagen lista.</strong> Si la descarga automática no funcionó en tu dispositivo, usa una de estas opciones:
+                    <div class="download-result-actions">
+                        <a href="${imageUrl}" download="${escapeHTML(fileName)}">💾 Descargar de nuevo</a>
+                        <a href="${imageUrl}" target="_blank" rel="noopener">🖼️ Abrir imagen</a>
+                    </div>
+                `;
+            }
         }
 
         function clearDownloadResult() {
@@ -2356,20 +2384,32 @@
                     size: blob?.size || 0
                 };
 
-                const link = document.createElement('a');
-                link.download = fileName;
-                link.href = imageUrl;
-                link.rel = 'noopener';
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
+                // On mobile devices that support file-sharing, the <a download>
+                // click saves to Files (not Photos) and the user has to fish the
+                // image out. Skip it there — the share button below is the only
+                // path to Photos/Gallery anyway, so we make it the primary CTA
+                // instead of a fallback. Desktop / non-share browsers still get
+                // the auto-download.
+                const willOfferShare = quoteFile
+                    && typeof navigator !== 'undefined'
+                    && typeof navigator.share === 'function'
+                    && navigator.canShare?.({ files: [quoteFile] });
+
+                if (!willOfferShare) {
+                    const link = document.createElement('a');
+                    link.download = fileName;
+                    link.href = imageUrl;
+                    link.rel = 'noopener';
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                }
 
                 setDownloadResult(fileName, imageUrl);
 
-                // The auto-download via <a download>.click() is unreliable on
-                // mobile browsers (especially iOS Safari) and after async work,
-                // where the user-gesture context is lost. Scroll the fallback
-                // UI into view so the user always sees the manual save options.
+                // Scroll the result UI into view so the user always sees the
+                // save options without having to scroll for them (the share
+                // button on mobile, or the manual download links on desktop).
                 if (!silent) {
                     const resultEl = document.getElementById('downloadResult');
                     resultEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
