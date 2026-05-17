@@ -863,6 +863,169 @@
             font-weight: 600;
         }
 
+        .wa-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .wa-modal.active {
+            display: flex;
+        }
+
+        .wa-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+
+        .wa-modal-content {
+            position: relative;
+            background: #fff;
+            border-radius: 18px;
+            padding: 28px 22px 22px;
+            max-width: 480px;
+            width: 100%;
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+            animation: wa-modal-pop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+        }
+
+        @keyframes wa-modal-pop {
+            from { transform: translateY(12px) scale(0.96); opacity: 0; }
+            to   { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .wa-modal-close-x {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            line-height: 1;
+        }
+
+        .wa-modal-close-x:hover {
+            background: var(--light-cream);
+        }
+
+        .wa-modal-title {
+            margin: 0 0 6px;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            font-weight: 800;
+            padding-right: 28px;
+        }
+
+        .wa-modal-intro {
+            margin: 0 0 18px;
+            color: var(--text-dark);
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .wa-modal-intro strong {
+            color: var(--gold);
+        }
+
+        .wa-modal-steps {
+            list-style: none;
+            counter-reset: wa-step;
+            padding: 0;
+            margin: 0 0 16px;
+        }
+
+        .wa-modal-steps > li {
+            counter-increment: wa-step;
+            position: relative;
+            padding: 14px 14px 14px 54px;
+            margin-bottom: 12px;
+            background: var(--light-cream);
+            border-radius: 12px;
+            color: var(--text-dark);
+            line-height: 1.45;
+            font-size: 0.97rem;
+        }
+
+        .wa-modal-steps > li::before {
+            content: counter(wa-step);
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 30px;
+            height: 30px;
+            background: var(--gold);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .wa-modal-steps > li strong {
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+
+        .wa-modal-step-btn {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: var(--gold);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            min-height: 50px;
+            touch-action: manipulation;
+            font: inherit;
+            font-weight: 700;
+        }
+
+        .wa-modal-step-btn.wa-modal-step-whatsapp {
+            background: #25D366;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            font-size: 1.05rem;
+        }
+
+        .wa-modal-step-btn:active {
+            transform: translateY(1px);
+        }
+
+        .wa-modal-tip {
+            margin: 0;
+            padding: 12px 14px;
+            background: #FFF8E1;
+            border-left: 3px solid var(--gold);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            line-height: 1.45;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
         #quotePrintArea {
             background: white;
             padding: 25px 20px;
@@ -1480,17 +1643,11 @@
         <div id="step4" class="step">
             <div class="quote-wrapper">
                 <div class="quote-actions-top">
-                    <div class="quote-action">
-                        <button class="btn-download" onclick="downloadQuoteImage(event)" aria-label="Guardar imagen">
-                            💾 Guardar Imagen
+                    <div class="quote-action quote-action-single">
+                        <button class="btn-download" onclick="enviarCotizacionCompleta(event)" aria-label="Enviar cotización a Rita Valencia por WhatsApp">
+                            📤 Enviar Cotización a Rita
                         </button>
-                        <span class="button-instruction">Paso 1: descarga la cotización</span>
-                    </div>
-                    <div class="quote-action">
-                        <button class="btn-whatsapp" onclick="sendWhatsApp(event)" aria-label="Enviar por WhatsApp">
-                            📱 Enviar WhatsApp
-                        </button>
-                        <span class="button-instruction">Paso 2: envía a Rita Valencia</span>
+                        <span class="button-instruction">Te guiamos paso a paso para enviarla por WhatsApp</span>
                     </div>
                 </div>
                 <div id="downloadResult" class="download-result" aria-live="polite"></div>
@@ -1545,6 +1702,23 @@
 
     <div class="footer">
         © 2025 MVV Natural - Todos los derechos reservados
+    </div>
+
+    <div id="whatsappModal" class="wa-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="whatsappModalTitle">
+        <div class="wa-modal-backdrop" onclick="closeWhatsAppModal()"></div>
+        <div class="wa-modal-content" role="document">
+            <button type="button" class="wa-modal-close-x" onclick="closeWhatsAppModal()" aria-label="Cerrar">✕</button>
+            <h2 id="whatsappModalTitle" class="wa-modal-title">✅ ¡Cotización lista!</h2>
+            <p class="wa-modal-intro">
+                Sigue estos pasos para enviarla a <strong>Rita Valencia</strong>:
+            </p>
+            <ol class="wa-modal-steps" id="whatsappModalSteps">
+                <!-- Steps are injected based on device capability (mobile vs desktop) -->
+            </ol>
+            <p class="wa-modal-tip">
+                💡 <strong>Importante:</strong> WhatsApp no permite adjuntar imágenes automáticamente desde un enlace. Por eso necesitas adjuntar la cotización manualmente con el clip 📎.
+            </p>
+        </div>
     </div>
 
     <script>
@@ -2273,7 +2447,7 @@
         }
 
         // Descargar imagen con alta definición
-        async function downloadQuoteImage(triggerEvent = null, { silent = false } = {}) {
+        async function downloadQuoteImage(triggerEvent = null, { silent = false, inlineResult = true } = {}) {
             if (!silent) {
                 vibrate(20);
             }
@@ -2405,14 +2579,17 @@
                     link.remove();
                 }
 
-                setDownloadResult(fileName, imageUrl);
+                if (inlineResult) {
+                    setDownloadResult(fileName, imageUrl);
 
-                // Scroll the result UI into view so the user always sees the
-                // save options without having to scroll for them (the share
-                // button on mobile, or the manual download links on desktop).
-                if (!silent) {
-                    const resultEl = document.getElementById('downloadResult');
-                    resultEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Scroll the result UI into view so the user always sees
+                    // the save options without having to scroll for them (the
+                    // share button on mobile, or the manual download links on
+                    // desktop).
+                    if (!silent) {
+                        const resultEl = document.getElementById('downloadResult');
+                        resultEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 }
 
                 if (btn) {
@@ -2470,6 +2647,132 @@
 
         window.MVV_BUILD_WHATSAPP_MESSAGE = buildWhatsAppMessage;
         window.MVV_BUILD_WHATSAPP_URL = buildWhatsAppUrl;
+
+        // Unified "Enviar Cotización" flow: generate the image, then open the
+        // step-by-step modal that walks the user through saving and sending
+        // via WhatsApp. Replaces the previous two-button "Paso 1 / Paso 2"
+        // UI so users get a clear guided path instead of having to know the
+        // order themselves.
+        async function enviarCotizacionCompleta(triggerEvent = null) {
+            vibrate(20);
+            normalizeCart();
+
+            if (!hasCartItems()) {
+                alert('⚠️ Tu carrito está vacío. Agrega productos primero.');
+                goToStep(1);
+                return;
+            }
+
+            const btn = triggerEvent?.currentTarget || triggerEvent?.target || null;
+            const originalLabel = btn ? (btn.dataset.originalLabel || btn.innerHTML) : null;
+            if (btn) {
+                btn.dataset.originalLabel = originalLabel;
+                btn.innerHTML = '⏳ Preparando cotización…';
+                btn.disabled = true;
+            }
+
+            try {
+                // Generate the JPEG and stash it in MVV_LAST_QUOTE_FILE. We
+                // suppress the inline result card (inlineResult: false) because
+                // the modal below replaces it with a clearer guided flow.
+                // On desktop this also auto-fires <a download>; on mobile the
+                // file is just held in memory until the modal's Save button
+                // triggers navigator.share within a fresh user gesture.
+                await downloadQuoteImage(null, { silent: true, inlineResult: false });
+
+                if (btn) {
+                    btn.innerHTML = '✅ Lista';
+                    restoreButton(btn, originalLabel || '📤 Enviar Cotización a Rita', 1500);
+                }
+
+                openWhatsAppModal();
+            } catch (error) {
+                console.error('Error al preparar cotización:', error);
+                if (btn) {
+                    btn.innerHTML = '❌ Error. Reintentar';
+                    restoreButton(btn, originalLabel || '📤 Enviar Cotización a Rita', 2000);
+                }
+                setDownloadError(error?.message || 'Intenta generar la cotización nuevamente.');
+            }
+        }
+
+        function openWhatsAppModal() {
+            const modal = document.getElementById('whatsappModal');
+            const stepsEl = document.getElementById('whatsappModalSteps');
+            if (!modal || !stepsEl) return;
+
+            const quoteFile = window.MVV_LAST_QUOTE_FILE;
+            const canShareFile = quoteFile
+                && typeof navigator !== 'undefined'
+                && typeof navigator.share === 'function'
+                && navigator.canShare?.({ files: [quoteFile] });
+
+            // Build step list based on device. Mobile gets a "Save to Gallery"
+            // step because the file isn't auto-downloaded there (browsers can't
+            // write to Photos without going through navigator.share). Desktop
+            // already has the file in Downloads, so it skips that step.
+            if (canShareFile) {
+                stepsEl.innerHTML = `
+                    <li>
+                        <strong>Guarda la imagen</strong> en tu galería de fotos.
+                        <button type="button" class="wa-modal-step-btn" onclick="shareLastQuoteImage()">📷 Guardar en Galería</button>
+                    </li>
+                    <li>
+                        <strong>Abre WhatsApp</strong> con Rita. El mensaje ya estará escrito.
+                        <button type="button" class="wa-modal-step-btn wa-modal-step-whatsapp" onclick="openWhatsAppForRita()">📱 Abrir WhatsApp</button>
+                    </li>
+                    <li>
+                        <strong>Envía el mensaje</strong> tocando el botón verde de enviar en WhatsApp.
+                    </li>
+                    <li>
+                        <strong>Adjunta la cotización:</strong> toca el clip 📎 dentro del chat, elige "Galería" o "Fotos" y selecciona la imagen que acabas de guardar.
+                    </li>
+                `;
+            } else {
+                stepsEl.innerHTML = `
+                    <li>
+                        <strong>La cotización ya se descargó</strong> a tu carpeta de Descargas como un archivo <code>.jpeg</code>.
+                    </li>
+                    <li>
+                        <strong>Abre WhatsApp Web</strong> con Rita. El mensaje ya estará escrito.
+                        <button type="button" class="wa-modal-step-btn wa-modal-step-whatsapp" onclick="openWhatsAppForRita()">📱 Abrir WhatsApp</button>
+                    </li>
+                    <li>
+                        <strong>Envía el mensaje</strong> a Rita en el chat que se abrió.
+                    </li>
+                    <li>
+                        <strong>Adjunta la cotización:</strong> arrastra el archivo descargado al chat, o usa el clip 📎 → "Fotos y videos" → elige <code>cotizacion_*.jpeg</code> desde Descargas.
+                    </li>
+                `;
+            }
+
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeWhatsAppModal() {
+            const modal = document.getElementById('whatsappModal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+        }
+
+        function openWhatsAppForRita() {
+            vibrate(20);
+            const message = buildWhatsAppMessage();
+            const whatsappUrl = buildWhatsAppUrl(message);
+            window.MVV_LAST_WHATSAPP_URL = whatsappUrl;
+            const opened = window.open(whatsappUrl, '_blank');
+            if (!opened) {
+                window.location.href = whatsappUrl;
+                return;
+            }
+            // Leave the modal open so the user can re-tap if WhatsApp gets
+            // dismissed, and so the "attach the cotización" instruction stays
+            // visible while they're in WhatsApp.
+        }
 
         // Enviar WhatsApp
         async function sendWhatsApp(triggerEvent = null) {
